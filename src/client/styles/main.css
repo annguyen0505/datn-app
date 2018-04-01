@@ -6,3 +6,11 @@
 .text-danger {
     color:red;
 }
+
+.btn-save{
+    background-color: #4ebb4bfc;
+}
+.btn-cancel{
+    background-color:white;
+    color: black
+}
