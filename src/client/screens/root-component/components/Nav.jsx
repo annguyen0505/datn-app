@@ -8,15 +8,14 @@ class Nav extends React.Component {
     render() {
         return (
             <div>
-                <nav className="nav-background">
-                    <div className="nav-wrapper">
-                        <a href="#" className="brand-logo">Logo</a>
-                        <ul id="nav-mobile" className="right hide-on-med-and-down">
-                            <li><a href="sass.html">Đăng nhập</a></li>
-                            <li><a href="badges.html">Giỏ hàng</a></li>
-                            <li><a href="collapsible.html">Cửa hàng của bạn</a></li>
-                        </ul>
+                <nav className="navbar nav-background">
+                    <div className="navbar-header">
+                        <h3>World Shop Online</h3>
                     </div>
+                    <ul className="nav navbar-nav navbar-right">
+                        <li><a href="#"><span className="glyphicon glyphicon-user" /> Sign Up</a></li>
+                        <li><a href="#"><span className="glyphicon glyphicon-log-in" /> Login</a></li>
+                    </ul>
                 </nav>
             </div>
         );

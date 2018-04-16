@@ -1,23 +1,13 @@
-export const saveAccessToken = (accessToken) => {
-    const cookie = JSON.parse(document.cookie);
-    if (cookie) {
-        cookie.accessToken = accessToken;
-    }
+const localStorage = window.localStorage;
 
-    document.cookie = JSON.stringify(cookie);
+export const saveAccessToken = (accessToken) => {
+    localStorage.setItem("accessToken", accessToken);
 };
 
 export const getAccessToken = () => {
-    const cookie = JSON.parse(document.cookie);
-    if (cookie.accessToken) {
-        return cookie.accessToken;
-    }
-    return null;
+    return localStorage.getItem("accessToken");
 };
 
 export const removeAccessToken = () => {
-    const cookie = JSON.parse(document.cookie);
-    cookie.accessToken = null;
-    document.cookie = JSON.stringify(cookie);
+    localStorage.removeItem("accessToken");
 };
-

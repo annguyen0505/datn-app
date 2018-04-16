@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-
+import homeReducer from "./../screens/home/reducers/index";
 const checkBox = (store, action) => {
   if (action.type === "TOGGLE_CHECK") {
     return {
@@ -26,5 +26,6 @@ const number = (store, action) => {
 
 export default combineReducers({
   checkBox,
-  number
+  number,
+  homeReducer
 });

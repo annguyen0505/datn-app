@@ -14,3 +14,7 @@
     background-color:white;
     color: black
 }
+
+.react-selectize.root-node .react-selectize-control{
+    padding: 0px 0px;
+}

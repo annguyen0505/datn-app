@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ProTypes from "prop-types";
+import PropTypes from "prop-types";
 import Nav from "../components/Nav";
 
 
@@ -21,7 +21,7 @@ class MasterPage extends Component {
 }
 
 MasterPage.propTypes = {
-    children: ProTypes.object
+    children: PropTypes.object
 };
 
 export default MasterPage;
