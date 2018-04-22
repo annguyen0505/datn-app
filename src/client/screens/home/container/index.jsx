@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Guid from "guid";
 import Pagination from "react-js-pagination";
 import { connect } from "react-redux";
-import { getShops, getCategories, getInitialState } from "./../actions/index";
+import { getShops, getInitialState } from "./../actions/index";
 import ReactSelectize from "react-selectize";
+import { Link } from "react-router";
+
+const uuidv1 = require("uuid/v1");
+
 
 class Home extends React.Component {
     constructor(props) {
@@ -32,17 +35,25 @@ class Home extends React.Component {
                 value: categoryId
             };
         });
-        const renderCollections = () => {
+        const rendershops = () => {
             if (Array.isArray(shops)) {
-                return shops.map((collection) => {
+                return shops.map((shop) => {
+                    const linkToShop = {
+                        pathname: "/demo-upload",
+                        query: {
+                            shopId: shop.shopId
+                        }
+                    };
                     return (
-                        <div key={`shops-${Guid.raw()}`} className="col-xs-4 col-md-2">
+                        <div key={`shops-${uuidv1()}`} className="col-xs-4 col-md-2">
                             <div className="thumbnail" >
-                                <img src={collection.imgUrl} alt="" className="circle" />
+                                <img src={shop.imgUrl} alt="" className="circle" />
                                 <div className="caption">
-                                    <h3><b>Cửa hàng: </b> {collection.shopName}</h3>
-                                    <p><b>Cung cấp:</b> {collection.categories}</p>
-                                    <p><a href="#" className="btn btn-primary" role="button">Xem</a></p>
+                                    <h3><b>Cửa hàng: </b> {shop.shopName}</h3>
+                                    <p><b>Cung cấp:</b> {shop.categories}</p>
+                                    <button className="btn btn-info" >
+                                        <Link to={linkToShop}>Xem</Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +92,7 @@ class Home extends React.Component {
                 </div>
                 <br />
                 <div className="row">
-                    {renderCollections()}
+                    {rendershops()}
                 </div>
                 <div className="row">
                     <div className="col-xs-12 col-md-8">
@@ -105,7 +116,10 @@ class Home extends React.Component {
 Home.propTypes = {
     shops: PropTypes.array,
     totalRecords: PropTypes.number,
-    handlePageChange: PropTypes.func
+    handlePageChange: PropTypes.func,
+    categories: PropTypes.array,
+    dispatch: PropTypes.func,
+    searchCriteria: PropTypes.object
 };
 
 const mapStateToProps = (state) => {

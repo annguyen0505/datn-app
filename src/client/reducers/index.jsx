@@ -1,5 +1,6 @@
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
 import homeReducer from "./../screens/home/reducers/index";
+import authenticationReducer from "./../screens/authencation/reducers";
 const checkBox = (store, action) => {
   if (action.type === "TOGGLE_CHECK") {
     return {
@@ -7,7 +8,7 @@ const checkBox = (store, action) => {
     };
   }
 
-  return store || {checked: false};
+  return store || { checked: false };
 };
 
 const number = (store, action) => {
@@ -21,11 +22,12 @@ const number = (store, action) => {
     };
   }
 
-  return store || {value: 0};
+  return store || { value: 0 };
 };
 
 export default combineReducers({
   checkBox,
   number,
-  homeReducer
+  homeReducer,
+  authenticationReducer
 });

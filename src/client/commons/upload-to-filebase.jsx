@@ -3,6 +3,8 @@ import Guid from "guid";
 import firebase from "./../helpers/firebase-helper.js";
 import { axiosGet } from "./../helpers/axios-helper.js";
 import { apiGetShops } from "./../apis/shops-management.jsx";
+const uuidv1 = require("uuid/v1");
+
 export default class UploadDemo extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,7 @@ export default class UploadDemo extends React.Component {
         const ref = firebase.storage().ref();
         const imagesRef = ref.child("images");
         const file = this.fileInput.files[0];
-        const fileName = `${file.name}-${Guid.raw()}`;
+        const fileName = `${file.name}-${uuidv1()}`;
         const metadata = {
             contentType: file.type
         };
@@ -46,6 +48,7 @@ export default class UploadDemo extends React.Component {
     render() {
         return (
             <div>
+                <h2>{this.props.location.query.shopId}</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Upload file:

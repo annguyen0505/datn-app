@@ -12,7 +12,9 @@
 }
 .btn-cancel{
     background-color:white;
-    color: black
+    color: black;
+    border: 1px solid black;
+
 }
 
 .react-selectize.root-node .react-selectize-control{

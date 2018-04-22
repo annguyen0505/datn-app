@@ -1,0 +1,11 @@
+import { axiosPost, axiosGet } from "./../helpers/axios-helper.js";
+
+
+export const apiLogin = (credential, onSuccess, onError) => {
+    return axiosPost("/login", credential).then(onSuccess).catch(onError);
+};
+
+export const apiCheckUserName = (userName, onSuccess, onError) => {
+    return axiosGet("/checkUserName", userName).then(onSuccess).catch(onError);
+};
+
