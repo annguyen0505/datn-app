@@ -29,7 +29,8 @@ class MasterPage extends Component {
 }
 
 MasterPage.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
+    dispatch: PropTypes.func
 };
 
 export default connect()(MasterPage);

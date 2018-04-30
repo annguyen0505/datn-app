@@ -38,22 +38,22 @@ class Home extends React.Component {
         const rendershops = () => {
             if (Array.isArray(shops)) {
                 return shops.map((shop) => {
-                    const linkToShop = {
-                        pathname: "/demo-upload",
-                        query: {
-                            shopId: shop.shopId
-                        }
-                    };
+
                     return (
-                        <div key={`shops-${uuidv1()}`} className="col-xs-4 col-md-2">
-                            <div className="thumbnail" >
-                                <img src={shop.imgUrl} alt="" className="circle" />
-                                <div className="caption">
-                                    <h3><b>Cửa hàng: </b> {shop.shopName}</h3>
-                                    <p><b>Cung cấp:</b> {shop.categories}</p>
-                                    <button className="btn btn-info" >
-                                        <Link to={linkToShop}>Xem</Link>
-                                    </button>
+                        <div key={`shops-${uuidv1()}`} className="col-xs-12">
+                            <div className="" >
+                                <div className="col-xs-6">
+                                    <img src={shop.imgUrl} style={{ maxWidth: "300px", height: "auto" }} alt="" className="img-responsive" />
+                                </div>
+                                <div className="col-xs-6">
+                                    <div className="caption">
+                                        <h3>Cửa hàng: {shop.shopName}</h3>
+                                        <p><b>Cung cấp:</b> {shop.categories}</p>
+                                        <p><b>Khu vực kinh doanh:</b> {shop.businessLocations}</p>
+                                        <button className="btn btn-info" >
+                                            <Link >Xem</Link>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

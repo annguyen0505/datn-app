@@ -7,7 +7,7 @@ import {
 
 const defaultState = {
     profile: null,
-    isAuthenicated: false
+    isAuthenticated: false
 };
 
 const authenticationReducer = (state = defaultState, action) => {
@@ -15,7 +15,7 @@ const authenticationReducer = (state = defaultState, action) => {
         case SET_USER_PROFILE: return {
             ...state,
             profile: action.profile,
-            isAuthenicated: !!(action.profile || false)
+            isAuthenticated: !!(action.profile || false)
         };
 
         case REMOVE_USER_PROFILE: return {

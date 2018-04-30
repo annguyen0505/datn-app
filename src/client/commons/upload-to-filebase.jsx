@@ -48,7 +48,7 @@ export default class UploadDemo extends React.Component {
     render() {
         return (
             <div>
-                <h2>{this.props.location.query.shopId}</h2>
+                <h2>{this.props.params.shopId}</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Upload file:

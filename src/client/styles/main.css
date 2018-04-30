@@ -20,3 +20,8 @@
 .react-selectize.root-node .react-selectize-control{
     padding: 0px 0px;
 }
+
+.shop-cover-photo{
+    height: 250px;
+    width: 300px;
+}
