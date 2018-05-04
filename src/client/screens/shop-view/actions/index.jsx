@@ -1,10 +1,12 @@
-import { apiGetShopView, apiGetShopCategories } from "./../../../apis/shops-management";
-
+import { apiGetShopView, apiGetShopCategories, apiGetShopProducts } from "./../../../apis/shops-management";
 
 export const REQUEST_FOR_SHOPVIEW = "REQUEST_FOR_SHOPVIEW";
 export const RECEIVE_SHOPVIEW = "RECEIVE_SHOPVIEW";
 export const REQUEST_FOR_SHOPCATEGORIES = "REQUEST_FOR_SHOPCATEGORIES";
 export const RECEIVE_SHOP_CATEGORIES = "RECEIVE_SHOP_CATEGORIES";
+export const REQUEST_FOR_SHOP_PRODUCTS = "REQUEST_FOR_SHOP_PRODUCTS";
+export const RECEIVE_SHOP_PRODUCTS = "RECEIVE_SHOP_PRODUCTS";
+export const SEARCH_SHOP_PRODUCTS = "SEARCH_SHOP_PRODUCTS";
 
 export const requestForShopView = () => {
     return {
@@ -36,6 +38,23 @@ export const receiveShopCategories = (categories) => {
 };
 
 
+export const requestForShopProducts = () => {
+    return {
+        type: REQUEST_FOR_SHOP_PRODUCTS
+    };
+
+};
+
+export const receiveShopProducts = (products, totalRecords, hasMoreItems) => {
+    return {
+        type: RECEIVE_SHOP_PRODUCTS,
+        products,
+        totalRecords,
+        hasMoreItems
+    };
+};
+
+
 export const getShopView = (shopId) => {
     return (dispatch) => {
         dispatch(requestForShopView());
@@ -63,3 +82,28 @@ export const getShopCategories = (shopId) => {
             });
     };
 };
+
+export const getShopProducts = (criteria) => {
+    return (dispatch) => {
+        dispatch(requestForShopProducts());
+        return apiGetShopProducts(criteria,
+            (result) => {
+                const pageSize = 10;
+                const { products, totalRecords } = result.data;
+                const hasMoreItems = Math.round(totalRecords / pageSize) + 1 > criteria.pageNumber;
+                dispatch(receiveShopProducts(products, totalRecords, hasMoreItems));
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
+};
+
+export const searchProducts = (criteria) => {
+    return {
+        type: SEARCH_SHOP_PRODUCTS,
+        criteria
+    };
+};
+
+

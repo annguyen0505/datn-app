@@ -15,3 +15,7 @@ export const apiGetShopView = (params, onSuccess, onError) => {
 export const apiGetShopCategories = (params, onSuccess, onError) => {
     return axiosGet("/getShopCategories", params).then(onSuccess).catch(onError);
 };
+
+export const apiGetShopProducts = (criteria, onSuccess, onError) => {
+    return axiosGet("/getShopProducts", criteria).then(onSuccess).catch(onError);
+};

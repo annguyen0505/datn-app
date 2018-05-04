@@ -10,9 +10,17 @@ const defaultState = {
         categories: "",
         imgUrl: ""
     },
-    searchCriteria: {
-
+    criteria: {
+        pageNumber: 1,
+        productName: "",
+        category: {
+            label: "Tất cả",
+            value: ""
+        },
+        atPrice: "",
+        priceDirection: ""
     },
+    hasMoreItems: true,
     categories: [],
     products: []
 };
@@ -38,7 +46,33 @@ const shopViewReducer = (state = defaultState, action) => {
             isFetching: false,
             categories: action.categories
         };
+        case actions.REQUEST_FOR_SHOP_PRODUCTS: return {
+            ...state,
+            isFetching: true
+        };
+        case actions.RECEIVE_SHOP_PRODUCTS: {
+            let products = [...state.products];
+            if (action.products) {
+                products = [...products, ...action.products];
+            }
+            return {
+                ...state,
+                isFetching: false,
+                totalRecords: action.totalRecords,
+                products,
+                hasMoreItems: action.hasMoreItems,
+                resetPage: false
+            };
+        }
 
+        case actions.SEARCH_SHOP_PRODUCTS:
+            return {
+                ...state,
+                criteria: action.criteria,
+                products: [],
+                hasMoreItems: true,
+                resetPage: true
+            };
         default: return { ...state };
     }
 };
