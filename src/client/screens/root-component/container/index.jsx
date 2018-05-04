@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import Nav from "../components/Nav";
 import { connect } from "react-redux";
 import { setUserProfile } from "./../../authencation/actions/index";
-import { getLocalUserProfile } from "./../../../helpers/jwt-helper";
-
+import Notification from "./../components/notification";
 class MasterPage extends Component {
     constructor(props) {
         super(props);
@@ -17,9 +16,12 @@ class MasterPage extends Component {
     }
 
     render() {
+        const { notificationReducers } = this.props;
+
         return (
             <div>
                 <Nav />
+                <Notification notification={notificationReducers} />
                 <div>
                     {this.props.children}
                 </div>
@@ -30,7 +32,18 @@ class MasterPage extends Component {
 
 MasterPage.propTypes = {
     children: PropTypes.object,
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
+    notificationReducers: PropTypes.object
+
 };
 
-export default connect()(MasterPage);
+const mapStateToProps = (state) => {
+    const { authenticationReducer, notificationReducers } = state;
+    const { isAuthenticated } = authenticationReducer;
+
+    return {
+        isAuthenticated,
+        notificationReducers
+    };
+};
+export default connect(mapStateToProps)(MasterPage);

@@ -20,6 +20,7 @@ const defaultState = {
         atPrice: "",
         priceDirection: ""
     },
+    needReload: false,
     hasMoreItems: true,
     categories: [],
     products: []
@@ -48,8 +49,10 @@ const shopViewReducer = (state = defaultState, action) => {
         };
         case actions.REQUEST_FOR_SHOP_PRODUCTS: return {
             ...state,
-            isFetching: true
+            isFetching: true,
+            needReload: false
         };
+        
         case actions.RECEIVE_SHOP_PRODUCTS: {
             let products = [...state.products];
             if (action.products) {
@@ -65,6 +68,18 @@ const shopViewReducer = (state = defaultState, action) => {
             };
         }
 
+        case actions.LOAD_MORE: {
+            const { criteria } = state;
+            return {
+                ...state,
+                criteria: {
+                    ...criteria,
+                    pageNumber: action.pageNumber
+                },
+                needReload: true,
+                hasMoreItems: false
+            };
+        }
         case actions.SEARCH_SHOP_PRODUCTS:
             return {
                 ...state,

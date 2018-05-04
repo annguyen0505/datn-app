@@ -1,33 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getShopProducts } from "./../actions";
+import { getShopProducts, loadMore } from "./../actions";
 import InfiniteScroll from "react-infinite-scroller";
 
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
+        const { criteria, shopId } = this.props;
+        criteria.shopId = shopId;
     }
 
     componentWillReceiveProps(nextProps) {
-        const { resetPage } = nextProps;
+        const { resetPage, needReload, dispatch } = nextProps;
+
         if (resetPage) {
             this.refs.scroller.pageLoaded = 0;
             window.scrollTo(0, 0);
         }
-
+        if (needReload) {
+            const { criteria } = nextProps;
+            dispatch(getShopProducts(criteria));
+        }
     }
 
     handleLoadMore(page) {
-        console.log("new page", page);
+
         const { dispatch } = this.props;
-        const { criteria, shopId } = this.props;
-        const newCriteria = {
-            ...criteria,
-            shopId,
-            pageNumber: page
-        };
-        dispatch(getShopProducts(newCriteria));
+        dispatch(loadMore(page));
     }
 
     render() {
@@ -52,9 +52,6 @@ class ProductList extends React.Component {
                 pageStart={0}
                 loadMore={this.handleLoadMore.bind(this)}
                 hasMore={this.props.hasMoreItems}
-                isReverse={true}
-                useCapture={true}
-                useWindow={true}
                 ref="scroller"
             >
                 <div className="row">
@@ -74,17 +71,21 @@ ProductList.propTypes = {
     products: PropTypes.array,
     criteria: PropTypes.object,
     shopId: PropTypes.string,
-    totalRecords: PropTypes.number
+    totalRecords: PropTypes.number,
+    hasMoreItems: PropTypes.bool,
+    resetPage: PropTypes.bool,
+    needReload: PropTypes.bool
 };
 const mapStateToProps = (state) => {
     const { shopViewReducer } = state;
-    const { criteria, products, totalRecords, hasMoreItems, resetPage } = shopViewReducer;
+    const { criteria, products, totalRecords, hasMoreItems, resetPage, needReload } = shopViewReducer;
     return {
         criteria,
         products,
         totalRecords,
         hasMoreItems,
-        resetPage
+        resetPage,
+        needReload
     };
 };
 

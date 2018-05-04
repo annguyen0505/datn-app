@@ -7,6 +7,7 @@ export const RECEIVE_SHOP_CATEGORIES = "RECEIVE_SHOP_CATEGORIES";
 export const REQUEST_FOR_SHOP_PRODUCTS = "REQUEST_FOR_SHOP_PRODUCTS";
 export const RECEIVE_SHOP_PRODUCTS = "RECEIVE_SHOP_PRODUCTS";
 export const SEARCH_SHOP_PRODUCTS = "SEARCH_SHOP_PRODUCTS";
+export const LOAD_MORE = "LOAD_MORE";
 
 export const requestForShopView = () => {
     return {
@@ -51,6 +52,13 @@ export const receiveShopProducts = (products, totalRecords, hasMoreItems) => {
         products,
         totalRecords,
         hasMoreItems
+    };
+};
+
+export const loadMore = (nextPage) => {
+    return {
+        type: LOAD_MORE,
+        pageNumber: nextPage
     };
 };
 

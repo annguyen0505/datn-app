@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 
 import { SimpleSelect } from "react-selectize";
 import { getShopCategories } from "./../actions";
-import { getShopProducts, searchProducts } from "./../actions";
+import { searchProducts } from "./../actions";
+import {showSuccess} from "./../../root-component/actions/notification";
 
 class ProductFilter extends React.Component {
     constructor(props) {
