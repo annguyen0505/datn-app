@@ -1,6 +1,7 @@
 import { getAccessToken, saveAccessToken } from "./../../../helpers/cookie-helper";
 import { getLocalUserProfile } from "./../../../helpers/jwt-helper";
 import { apiLogin, apiCheckUserName } from "./../../../apis/authentication-api";
+import { showSuccess, showError } from "./../../root-component/actions/notification";
 export const SET_USER_PROFILE = "SET_USER_PROFILE";
 export const REMOVE_USER_PROFILE = "REMOVE_USER_PROFILE";
 export const REQUEST_LOGIN = "REQUEST_LOGIN";
@@ -73,6 +74,7 @@ export const login = (credential, localStorage) => {
                 saveAccessToken(localStorage, token);
                 dispatch(setUserProfile(localStorage));
                 dispatch(receiveLoginResponse(true));
+                dispatch(showSuccess("Đăng nhập thành công"));
             } else {
                 dispatch(receiveLoginResponse(false));
             }

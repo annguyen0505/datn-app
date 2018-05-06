@@ -58,9 +58,11 @@ class Login extends React.Component {
     handleBtnLoginClick(e) {
 
         e.preventDefault();
-        this.formDirty=true;        
+        this.formDirty = true;
         if (this.validateForm()) {
             const { dispatch } = this.props;
+            const { inputs } = this.state;
+            const { userName, password } = inputs;
             const localStorage = window.localStorage;
             const credential = {
                 userName: userName.value,
