@@ -28,6 +28,7 @@ class ShopManagement extends React.Component {
         const accessToken = getAccessToken(localStorage) || null;
         const profile = accessToken === null ? null : getLocalUserProfile(accessToken);
         this.shopId = profile.shopId;
+        this.forceUpdate();
     }
 
     handleTabClick(index) {
@@ -72,9 +73,12 @@ class ShopManagement extends React.Component {
         return (
             <div className="col-xs-12">
                 <h2>Quảng lý cửa hàng</h2>
-                <ul className="nav nav-tabs">
-                    {tabsWillRender}
-                </ul>
+                <div className="col-xs-12">
+                    <ul className="nav nav-pills">
+                        {tabsWillRender}
+                    </ul>
+                </div>
+
                 <div>
                     {renderTabsContent()}
                 </div>

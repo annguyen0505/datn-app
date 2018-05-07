@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import DemoGridView from "./../../../commons/gridview/demo-gridview";
 import { connect } from "react-redux";
 
 class OrdersManagement extends React.Component {
@@ -15,6 +15,7 @@ class OrdersManagement extends React.Component {
         return (
             <div className="row">
                 <h2>OrdersManagement</h2>
+                <DemoGridView/>
             </div>
         );
     }

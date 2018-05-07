@@ -10,7 +10,7 @@ class Nav extends React.Component {
             <div>
                 <nav className="navbar nav-background">
                     <div className="navbar-header">
-                        <h3>World Shop Online</h3>
+                        <h3>Chợ Lớn</h3>
                     </div>
                     <ul className="nav navbar-nav navbar-right">
                         <li><a href="#"><span className="glyphicon glyphicon-user" /> Sign Up</a></li>

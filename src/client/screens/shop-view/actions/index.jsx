@@ -96,7 +96,7 @@ export const getShopProducts = (criteria) => {
         dispatch(requestForShopProducts());
         return apiGetShopProducts(criteria,
             (result) => {
-                const pageSize = 10;
+                const { pageSize } = criteria;
                 const { products, totalRecords } = result.data;
                 const hasMoreItems = Math.round(totalRecords / pageSize) + 1 > criteria.pageNumber;
                 dispatch(receiveShopProducts(products, totalRecords, hasMoreItems));

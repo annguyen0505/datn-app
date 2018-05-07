@@ -18,7 +18,7 @@ const defaultState = {
             value: ""
         },
         atPrice: "",
-        priceDirection: ""
+        priceDirection: 1
     },
     needReload: false,
     hasMoreItems: true,
