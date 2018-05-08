@@ -3,10 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getShopProducts } from "./../actions/product-actions";
 import GridView from "./../../../commons/gridview/gridview";
-
+import ProductAddingModal from "./product-adding-modal";
 class ProductGridView extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isOpenAddModal: false
+        };
 
     }
 
@@ -17,6 +20,12 @@ class ProductGridView extends React.Component {
             shopId
         };
         dispatch(getShopProducts(newCriteria));
+    }
+
+    handleTogleAddModal() {
+        this.setState({
+            isOpenAddModal: !this.state.isOpenAddModal
+        });
     }
 
     //Handle actions such as edit,delete
@@ -58,7 +67,7 @@ class ProductGridView extends React.Component {
             <div className="">
                 <div className="row">
                     <div className="col-xs-12 col-md-2">
-                        <button type="button" className="col-md-12 btn btn-success">
+                        <button type="button" onClick={() => { this.handleTogleAddModal(); }} className="col-md-12 btn btn-success">
                             <span className="glyphicon glyphicon-plus" aria-hidden="true">Thêm mới</span>
                         </button>
                     </div>
@@ -77,6 +86,7 @@ class ProductGridView extends React.Component {
                         onActionClick={this.handleGridViewActionClick.bind(this)} //Handle actions
                     />
                 </div>
+                <ProductAddingModal isOpenAddModal={this.state.isOpenAddModal} handleToggleModal={this.handleTogleAddModal.bind(this)} />
             </div>
         );
     }

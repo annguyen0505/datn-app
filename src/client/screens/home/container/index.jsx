@@ -94,18 +94,6 @@ class Home extends React.Component {
                 <div className="row">
                     {rendershops()}
                 </div>
-                <div className="row">
-                    <div className="col-xs-12 col-md-8">
-                        <Pagination
-                            activePage={searchCriteria.pageNumber}
-                            itemsCountPerPage={2}
-                            totalItemsCount={searchCriteria.totalRecords}
-                            pageRangeDisplayed={10}
-                            onChange={this.handlePageChange.bind(this)}
-                        />
-                    </div>
-
-                </div>
             </div >
 
         );
