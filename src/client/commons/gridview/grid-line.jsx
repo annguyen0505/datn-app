@@ -26,6 +26,12 @@ export class GridLine extends React.Component {
                         return (<td key={cellId}><img src={data[column.data]} style={{ width: "auto", height: "auto", maxWidth: "50px", maxHeight: "50px" }} />
                         </td>
                         );
+                    case "product-action":
+                        return
+                        (<td key={cellId}>
+                            <p>sssss</p>
+                        </td>);
+
                     case "datetime":
                         {
                             let date = "";
@@ -76,25 +82,32 @@ export class GridLine extends React.Component {
                         let buttonClassName = "";
                         switch (action) {
                             case "edit":
-                                buttonClassName = "glyphicon glyphicon-pencil";
+                                buttonClassName = "glyphicon glyphicon-pencil edit-icon";
                                 break;
                             case "delete":
-                                buttonClassName = "glyphicon glyphicon-remove";
+                                buttonClassName = "glyphicon glyphicon-remove remove-icon";
                                 break;
                             case "review":
                                 buttonClassName = "glyphicon glyphicon-search";
                                 break;
                         }
                         return (
-                            <button className="btn btn-xs" onClick={() => {
+                            <button style={
+                                {
+                                    marginRight: "5%",
+                                    width: "30%"
+                                }
+                            } onClick={() => {
                                 self.props.onActionClick(action);
                             }} key={actionId} className={buttonClassName}
-                            >{action}</button>
+                            ></button>
                         );
                     });
                 };
 
-                return (<td>{renderActionButtons()}</td>);
+                return (<td style={{
+                    textAlign: "center"
+                }}>{renderActionButtons()}</td>);
             }
 
             return null;

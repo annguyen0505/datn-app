@@ -14,9 +14,17 @@
     background-color:white;
     color: black;
     border: 1px solid black;
-
+}
+.text-info{
+    color: #4ebb4bfc
 }
 
+.edit-icon{
+    color:forestgreen;
+}
+.remove-icon{
+    color: crimson
+}
 .react-selectize.root-node .react-selectize-control{
     padding: 0px 0px;
 }

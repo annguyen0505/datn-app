@@ -1,6 +1,7 @@
 // Import the Firebase modules that you need in your app.
 import "./../../../node_modules/firebase/storage/index";
 
+const uuidv1 = require("uuid/v1");
 
 const firebase = require("firebase");
 
@@ -13,4 +14,23 @@ const config = {
     storageBucket: "datn-827e8.appspot.com",
     messagingSenderId: "2199135556"
 };
-export default firebase.initializeApp(config);
+
+const instance = firebase.initializeApp(config);
+const ref = instance.storage().ref();
+
+
+export const uploadImage = (file, onSuccess, onError) => {
+    const imagesRef = ref.child("images");
+    const fileName = `${uuidv1()}-${file.name}`;
+    const metadata = {
+        contentType: file.type
+    };
+
+    return imagesRef.child(fileName).put(file, metadata).then(onSuccess).catch(onError);
+};
+
+export const deleteImage = (imageRef, onSuccess, onError) => {
+    const fileRef = ref.child(imageRef);
+    return fileRef.delete().then(onSuccess).catch(onError);
+};
+// export default firebase.initializeApp(config);

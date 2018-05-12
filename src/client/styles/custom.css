@@ -1,12 +1,12 @@
 .container {
   max-width: 800px;
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .modal-dialog{
-  width: fit-content;
+  /* width: fit-content; */
 }
 
 .header {

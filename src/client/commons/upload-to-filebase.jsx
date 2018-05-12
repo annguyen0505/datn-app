@@ -18,7 +18,7 @@ export default class UploadDemo extends React.Component {
         const ref = firebase.storage().ref();
         const imagesRef = ref.child("images");
         const file = this.fileInput.files[0];
-        const fileName = `${file.name}-${uuidv1()}`;
+        const fileName = `${uuidv1()}-${file.name}`;
         const metadata = {
             contentType: file.type
         };

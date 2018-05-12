@@ -13,7 +13,9 @@ const defaultState = {
         priceDirection: 1
     },
     needReload: false,
-    products: []
+    products: [],
+    addingStatus: false,
+    deleteStatus: false
 };
 
 const productReducer = (state = defaultState, action) => {
@@ -37,6 +39,29 @@ const productReducer = (state = defaultState, action) => {
                 products: action.products
             };
         }
+
+        case actions.REQUEST_ADD_PRODUCT: return {
+            ...state,
+            isFetching: true
+        };
+        case actions.RECEIVE_ADDING_RESPONSE: return {
+            needReload: true,
+            addingStatus: action.addingStatus,
+            isFetching: false,
+            ...state
+        };
+
+        case actions.REQUEST_DELETE_PRODUCT: return {
+            isFetching: true,
+            ...state
+        };
+
+        case actions.RECEIVE_DELETING_RESPONSE: return {
+            isFetching: false,
+            ...state,
+            needReload: true,
+            deleteStatus: action.deleteStatus
+        };
         default: return { ...state };
     }
 };

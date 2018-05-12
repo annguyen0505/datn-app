@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getShopProducts } from "./../actions/product-actions";
+import { getShopProducts, deleteProduct } from "./../actions/product-actions";
 import GridView from "./../../../commons/gridview/gridview";
 import ProductAddingModal from "./product-adding-modal";
+import DeleteProductModal from "./product-delete-modal";
 class ProductGridView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpenAddModal: false
+            isOpenAddModal: false,
+            isOpenDeleteModal: false
         };
 
     }
@@ -22,24 +24,42 @@ class ProductGridView extends React.Component {
         dispatch(getShopProducts(newCriteria));
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { addingStatus, deleteStatus, needReload, criteria, dispatch } = nextProps;
+        if (addingStatus) {
+            criteria.pageNumber = 1;
+        }
+        if (needReload) {
+            dispatch(getShopProducts(criteria));
+        }
+    }
     handleTogleAddModal() {
         this.setState({
             isOpenAddModal: !this.state.isOpenAddModal
         });
     }
+    handleTogleDeleteModal() {
+        this.setState({
+            isOpenDeleteModal: !this.state.isOpenDeleteModal
+        });
+    }
 
+    handleAcceptDelete() {
+        const { dispatch } = this.props;
+        this.handleTogleDeleteModal();
+        dispatch(deleteProduct(this.seletedProduct));
+    }
     //Handle actions such as edit,delete
     handleGridViewActionClick(action, identifier) {
         switch (action) {
             case "edit":
-                console.log(`Edit ${identifier}`);
+
                 break;
             case "delete":
-                console.log(`Delete ${identifier}`);
+                this.seletedProduct = identifier;
+                this.handleTogleDeleteModal();
                 break;
-            case "download":
-                console.log(`Download ${identifier}`);
-                break;
+
         }
     }
 
@@ -64,29 +84,35 @@ class ProductGridView extends React.Component {
             itemPerPage: criteria.pageSize
         };
         return (
-            <div className="">
-                <div className="row">
-                    <div className="col-xs-12 col-md-2">
-                        <button type="button" onClick={() => { this.handleTogleAddModal(); }} className="col-md-12 btn btn-success">
-                            <span className="glyphicon glyphicon-plus" aria-hidden="true">Thêm mới</span>
+            <div className="row">
+                <div className="col-xs-12 col-md-2">
+                    <button type="button" onClick={() => { this.handleTogleAddModal(); }} className="col-md-12 btn btn-success">
+                        <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        Thêm mới
                         </button>
-                    </div>
                 </div>
                 <hr />
-                <div className="row">
+                <div className="col-xs-12">
                     <GridView
+                        allowSorting={false}
                         criteria={gridCriteria}
                         totalRecords={totalRecords}
                         datasources={products} //Pass datasources
                         columns={columns} //Pass columns array
                         identifier={"productId"} //Identifier for grid row
                         defaultSortColumn={"productId"} //Default sort column
-                        // actions={["edit", "delete"]} //Remove if no action needed
+                        actions={["edit", "delete"]} //Remove if no action needed
+                        actionHeader=" "
                         onGridViewReload={this.handleGridViewReload.bind(this)} //Paginate changed => need reload datasource base on criteria
                         onActionClick={this.handleGridViewActionClick.bind(this)} //Handle actions
                     />
                 </div>
-                <ProductAddingModal isOpenAddModal={this.state.isOpenAddModal} handleToggleModal={this.handleTogleAddModal.bind(this)} />
+                <ProductAddingModal shopId={this.props.shopId} isOpenAddModal={this.state.isOpenAddModal} handleToggleModal={this.handleTogleAddModal.bind(this)} />
+                <DeleteProductModal
+                    isOpenDeleteModal={this.state.isOpenDeleteModal}
+                    handleToggleModal={this.handleTogleDeleteModal.bind(this)}
+                    onAccept={this.handleAcceptDelete.bind(this)}
+                />
             </div>
         );
     }
@@ -131,11 +157,14 @@ ProductGridView.defaultProps = {
 };
 const mapStateToProps = (state) => {
     const { productReducer } = state;
-    const { criteria, products, totalRecords } = productReducer;
+    const { criteria, products, totalRecords, addingStatus, needReload, deleteStatus } = productReducer;
     return {
         criteria,
         products,
-        totalRecords
+        totalRecords,
+        addingStatus,
+        needReload,
+        deleteStatus
     };
 };
 
