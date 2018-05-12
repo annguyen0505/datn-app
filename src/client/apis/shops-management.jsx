@@ -30,3 +30,7 @@ export const apiAddPorduct = (payload, onSuccess, onError) => {
 export const apiDeleteProduct = (params, onSuccess, onError) => {
     return axiosGet("/deleteProduct", params).then(onSuccess).catch(onError);
 };
+
+export const apiGetProduct = (params, onSuccess, onError) => {
+    return axiosGet("/getProduct", params).then(onSuccess).catch(onError);
+};

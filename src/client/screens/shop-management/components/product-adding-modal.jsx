@@ -19,7 +19,10 @@ class ProductAddingModal extends React.Component {
         this.defaultState = {
             images: [],
             fileNames: [],
-            category: {},
+            category: {
+                value: "",
+                label: "Chọn"
+            },
             productName: "",
             price: "",
             producNameMessage: "",
@@ -120,7 +123,7 @@ class ProductAddingModal extends React.Component {
 
     validatePrice() {
         const { price } = this.state;
-        const priceMessage = isEmptyInput(price) ? "Nhập Giá Sản Phẩm" : "";
+        const priceMessage = isEmptyInput(price) ? "Nhập giá sản phẩm" : "";
         // const priceMessage = price !== null &&
         this.setState({
             priceMessage
@@ -128,14 +131,14 @@ class ProductAddingModal extends React.Component {
         return priceMessage;
     }
 
-    validateForm(){
-        const producNameMessage= this.validateProductName();
+    validateForm() {
+        const producNameMessage = this.validateProductName();
 
-        const priceMessage=this.validatePrice();
+        const priceMessage = this.validatePrice();
 
-        const categoryMessage=this.validateCategory();
+        const categoryMessage = this.validateCategory();
 
-        return (producNameMessage.length===0&&priceMessage.length===0&&categoryMessage.length === 0);
+        return (producNameMessage.length === 0 && priceMessage.length === 0 && categoryMessage.length === 0);
     }
 
     handleLabelClick(e) {
@@ -157,23 +160,32 @@ class ProductAddingModal extends React.Component {
 
     handleToggleModal() {
         const { handleToggleModal } = this.props;
-        this.resetModal();
-        handleToggleModal();
+
+        Promise.all(this.storageRefs.map((ref)=>{
+            deleteImage(ref);
+        })).then(() => {
+            console.log("delete success");
+            this.resetModal();
+            handleToggleModal();
+        });
+
     }
 
     handleBtnAddClick() {
-        const { productName, price, category } = this.state;
-        const { shopId, dispatch } = this.props;
-        const payload = {
-            productName,
-            shopId,
-            price,
-            category: category.value,
-            imageUrls: this.imageUrls,
-            storageRefs: this.storageRefs
-        };
-        this.handleToggleModal();
-        dispatch(addProduct(payload));
+        if (this.validateForm()) {
+            const { productName, price, category } = this.state;
+            const { shopId, dispatch } = this.props;
+            const payload = {
+                productName,
+                shopId,
+                price,
+                category: category.value,
+                imageUrls: this.imageUrls,
+                storageRefs: this.storageRefs
+            };
+            this.handleToggleModal();
+            dispatch(addProduct(payload));
+        }
     }
     render() {
         const { isOpenAddModal } = this.props;
@@ -199,7 +211,7 @@ class ProductAddingModal extends React.Component {
                     <div key={index}>
                         <img src={image} style={{ width: "auto", height: "auto", maxWidth: "100px", maxHeight: "100px" }} />
                         <br />
-                        <button onClick={() => { this.handleRemoveImage(index) }} className="btn btn-default">Xóa</button>
+                        <button onClick={() => { this.handleRemoveImage(index); }} className="btn btn-default">Xóa</button>
                     </div>
                 );
             });
@@ -214,7 +226,7 @@ class ProductAddingModal extends React.Component {
                     lg={true}
                 >
                     <Header closeButton>
-                        <Title id='ModalHeader'><p className="text-info">Thêm mới sản phẩm</p></Title>
+                        <Title id="ModalHeader"><p className="text-info">Thêm mới sản phẩm</p></Title>
                     </Header>
                     <Body>
                         <div className="">
@@ -231,9 +243,9 @@ class ProductAddingModal extends React.Component {
                                 <div className="col-xs-6">
                                     <label htmlFor="productName" >Giá (VNĐ)</label>
                                     <input id="price" type="number
-                                    " name="price" value={price} 
-                                    onChange={(e) => { this.handleInputOnChange(e); }} 
-                                    onBlur={(e)=>{this.validatePrice(e);}}
+                                    " name="price" value={price}
+                                    onChange={(e) => { this.handleInputOnChange(e); }}
+                                    onBlur={(e) => {this.validatePrice(e);}}
                                     className="form-control" />
                                 <span className="text-danger">{this.state.priceMessage}</span>
                                 </div>
@@ -242,8 +254,8 @@ class ProductAddingModal extends React.Component {
                                 <div className="col-xs-6">
                                     <label htmlFor="shopOrShopKeeper">Loại sản phẩm</label>
                                     <SimpleSelect options={categoryOptions}
-                                     theme="bootstrap3" 
-                                     value={category} 
+                                     theme="bootstrap3"
+                                     value={category}
                                      defaultValue={categoryOptions[0]}
                                      onValueChange={this.handlecategorySelected.bind(this)} />
                                     <span className="text-danger">{this.state.categoryMessage}</span>
@@ -252,7 +264,7 @@ class ProductAddingModal extends React.Component {
                             <br />
                             <div className="row">
                                 <div className="col-xs-12">
-                                    <button className="btn btn-success" onClick={(e) => { this.handleLabelClick() }}>Tải ảnh lên</button>
+                                    <button className="btn btn-success" onClick={(e) => { this.handleLabelClick(); }}>Tải ảnh lên</button>
                                     <p>{fileNames.toString().replace(/,/g, "|")}</p>
                                     <input type="file" id="file" style={{ display: "none" }} onChange={(e) => { this.handleChangeImage(e); }} /><br />
                                     {renderPreviewer()}
@@ -262,10 +274,10 @@ class ProductAddingModal extends React.Component {
 
                     </Body>
                     <Footer>
-                        <button className='btn btn-success' style={{ width: "100px" }} onClick={this.handleBtnAddClick.bind(this)} >
+                        <button className="btn btn-success" style={{ width: "100px" }} onClick={this.handleBtnAddClick.bind(this)} >
                             Thêm
                         </button>
-                        <button onClick={this.handleToggleModal.bind(this)} className='btn btn-default' style={{ width: "100px" }}>
+                        <button onClick={this.handleToggleModal.bind(this)} className="btn btn-default" style={{ width: "100px" }}>
                             Hủy
                         </button>
                     </Footer>

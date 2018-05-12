@@ -26,11 +26,7 @@ export class GridLine extends React.Component {
                         return (<td key={cellId}><img src={data[column.data]} style={{ width: "auto", height: "auto", maxWidth: "50px", maxHeight: "50px" }} />
                         </td>
                         );
-                    case "product-action":
-                        return
-                        (<td key={cellId}>
-                            <p>sssss</p>
-                        </td>);
+                  
 
                     case "datetime":
                         {

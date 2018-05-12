@@ -5,12 +5,14 @@ import { getShopProducts, deleteProduct } from "./../actions/product-actions";
 import GridView from "./../../../commons/gridview/gridview";
 import ProductAddingModal from "./product-adding-modal";
 import DeleteProductModal from "./product-delete-modal";
+import ProductUpdateModal from "./product-update-modal";
 class ProductGridView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpenAddModal: false,
-            isOpenDeleteModal: false
+            isOpenDeleteModal: false,
+            isOpenUpdateModal: false
         };
 
     }
@@ -33,31 +35,37 @@ class ProductGridView extends React.Component {
             dispatch(getShopProducts(criteria));
         }
     }
-    handleTogleAddModal() {
+    handleToggleAddModal() {
         this.setState({
             isOpenAddModal: !this.state.isOpenAddModal
         });
     }
-    handleTogleDeleteModal() {
+    handleToggleDeleteModal() {
         this.setState({
             isOpenDeleteModal: !this.state.isOpenDeleteModal
+        });
+    }
+    handleToggleUpdateModal() {
+        this.setState({
+            isOpenUpdateModal: !this.state.isOpenUpdateModal
         });
     }
 
     handleAcceptDelete() {
         const { dispatch } = this.props;
-        this.handleTogleDeleteModal();
+        this.handleToggleDeleteModal();
         dispatch(deleteProduct(this.seletedProduct));
     }
     //Handle actions such as edit,delete
     handleGridViewActionClick(action, identifier) {
         switch (action) {
             case "edit":
-
+                this.seletedProduct = identifier;
+                this.handleToggleUpdateModal();
                 break;
             case "delete":
                 this.seletedProduct = identifier;
-                this.handleTogleDeleteModal();
+                this.handleToggleDeleteModal();
                 break;
 
         }
@@ -86,7 +94,7 @@ class ProductGridView extends React.Component {
         return (
             <div className="row">
                 <div className="col-xs-12 col-md-2">
-                    <button type="button" onClick={() => { this.handleTogleAddModal(); }} className="col-md-12 btn btn-success">
+                    <button type="button" onClick={() => { this.handleToggleAddModal(); }} className="col-md-12 btn btn-success">
                         <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         Thêm mới
                         </button>
@@ -107,12 +115,18 @@ class ProductGridView extends React.Component {
                         onActionClick={this.handleGridViewActionClick.bind(this)} //Handle actions
                     />
                 </div>
-                <ProductAddingModal shopId={this.props.shopId} isOpenAddModal={this.state.isOpenAddModal} handleToggleModal={this.handleTogleAddModal.bind(this)} />
+                <ProductAddingModal shopId={this.props.shopId} isOpenAddModal={this.state.isOpenAddModal} handleToggleModal={this.handleToggleAddModal.bind(this)} />
                 <DeleteProductModal
                     isOpenDeleteModal={this.state.isOpenDeleteModal}
-                    handleToggleModal={this.handleTogleDeleteModal.bind(this)}
+                    handleToggleModal={this.handleToggleDeleteModal.bind(this)}
                     onAccept={this.handleAcceptDelete.bind(this)}
                 />
+
+                {this.state.isOpenUpdateModal ?
+                    <ProductUpdateModal isOpenUpdateModal={this.state.isOpenUpdateModal}
+                        handleToggleModal={this.handleToggleUpdateModal.bind(this)}
+                        productId={this.seletedProduct}
+                    /> : null}
             </div>
         );
     }
