@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import { getProducts, increaseCartItem, decreaseCartItem, updateCartItem, removeItem } from "./../../../helpers/cookie-helper";
 import { apiGetCartInfo } from "./../../../apis/cart-management";
 import { toVNDformat } from "./../../../helpers/common-helper";
-import { apiPlaceOrder } from "./../../../apis/cart-management";
+import PlaceOrderModal from "./../components/place-order-modal";
+
 class CartManagement extends React.Component {
     constructor(props) {
         super(props);
+        this.selectedCart = null;
         this.state = {
-            carts: []
+            carts: [],
+            isOpenPlaceOrderModal: false
         };
     }
     componentDidMount() {
@@ -23,14 +26,36 @@ class CartManagement extends React.Component {
             });
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { isSuccess } = nextProps;
+        if (isSuccess && this.selectedCart !== null) {
+            const { products } = this.selectedCart;
+            products.forEach((pdt) => {
+                removeItem(pdt.productId);
+            });
+            const { carts } = this.state;
+            const newCarts = carts.filter((cart) => {
+                return cart.shopId !== this.selectedCart.shopId;
+            });
+
+            this.setState({
+                carts: newCarts,
+                isOpenPlaceOrderModal: false
+            });
+
+            this.selectedCart = null;
+
+        }
+    }
+
     handleQuantityChange(cartIndex, productIndex, e) {
         const { carts } = this.state;
         const value = e.target.value;
         updateCartItem({
             productId: carts[cartIndex].products[productIndex].productId,
-            quantity: value
+            quantity: parseInt(value) || 0
         });
-        carts[cartIndex].products[productIndex].quantity = parseInt(value) || "";
+        carts[cartIndex].products[productIndex].quantity = parseInt(value) || 0;
         this.setState({ carts });
     }
 
@@ -93,9 +118,11 @@ class CartManagement extends React.Component {
 
     handlePlaceOrder(cartIndex, e) {
         const { carts } = this.state;
-        const payload = {
-            cart: carts[cartIndex]
-        };
+        this.selectedCart = carts[cartIndex];
+        this.handleToggleModal();
+        // const payload = {
+        //     cart: carts[cartIndex]
+        // };
     }
 
     getOrderTotalCost(cartIndex) {
@@ -107,10 +134,18 @@ class CartManagement extends React.Component {
         });
         return toVNDformat(total);
     }
+    //place oerder handler
+    handleToggleModal() {
+        const { isOpenPlaceOrderModal } = this.state;
+        this.setState({
+            isOpenPlaceOrderModal: !isOpenPlaceOrderModal
+        });
+    }
 
+    /////////
     render() {
 
-        const { carts } = this.state;
+        const { carts, isOpenPlaceOrderModal } = this.state;
 
 
         const renderCarts = () => {
@@ -197,6 +232,14 @@ class CartManagement extends React.Component {
                 <h2 style={{ marginBottom: ".5em", marginTop: ".1em" }}>Giỏ hàng</h2>
 
                 {renderCarts()}
+                {isOpenPlaceOrderModal ?
+                    <PlaceOrderModal
+                        isOpenPlaceOrderModal={isOpenPlaceOrderModal}
+                        handleToggleModal={this.handleToggleModal.bind(this)}
+                        cart={this.selectedCart}
+                    />
+                    : null
+                }
             </div >
         );
     }
@@ -208,8 +251,10 @@ CartManagement.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+    const { cartManagementReducer } = state;
+    const { isSuccess } = cartManagementReducer;
     return {
-
+        isSuccess
     };
 };
 

@@ -7,6 +7,9 @@ export const apiGetShops = (params, onSuccess, onError) => {
 export const apiGetCategories = (onSuccess, onError) => {
     return axiosGet("/getCategories").then(onSuccess).catch(onError);
 };
+export const apiProvinces = (onSuccess, onError) => {
+    return axiosGet("/getProvinces").then(onSuccess).catch(onError);
+};
 
 export const apiGetShopView = (params, onSuccess, onError) => {
     return axiosGet("/getShopView", params).then(onSuccess).catch(onError);

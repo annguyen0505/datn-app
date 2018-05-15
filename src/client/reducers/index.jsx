@@ -4,11 +4,13 @@ import authenticationReducer from "./../screens/authencation/reducers";
 import shopViewReducer from "./../screens/shop-view/reducers";
 import notificationReducers from "./../../client/screens/root-component/reducers/notificatiion";
 import productReducer from "./../../client/screens/shop-management/reducers/productReducer";
+import cartManagementReducer from "./../../client/screens/cart-management/reducers/index";
 
 export default combineReducers({
   homeReducer,
   authenticationReducer,
   shopViewReducer,
   notificationReducers,
-  productReducer
+  productReducer,
+  cartManagementReducer
 });

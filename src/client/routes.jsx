@@ -8,6 +8,7 @@ import Home from "./screens/home/container";
 import ShopView from "./screens/shop-view/container";
 import ShopManagement from "./screens/shop-management/container";
 import CartManagement from "./screens/cart-management/container/index";
+import Register from "./screens/register/container/index";
 export const routes = (
     <Route path="/" component={MasterPage}>
         <IndexRoute component={Home} />
@@ -17,6 +18,7 @@ export const routes = (
         <Route path="/shop-view/:shopId" component={ShopView} />
         <Route path="/shop-management" component={ShopManagement} />
         <Route path="/cart" component={CartManagement} />
+        <Route path="/register" component={Register} />
 
     </Route>
 );

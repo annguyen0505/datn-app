@@ -241,7 +241,6 @@ class ProductAddingModal extends React.Component {
                                         onBlur={(e) => { this.validateProductName(e); }}
                                         className="form-control" />
                                     <span className="text-danger">{this.state.producNameMessage}</span>
-
                                 </div>
                                 <div className="col-xs-6">
                                     <label htmlFor="productName" >Giá (VNĐ)</label>

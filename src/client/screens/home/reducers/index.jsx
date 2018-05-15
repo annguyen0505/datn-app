@@ -8,7 +8,8 @@ const defaultState = {
         category: "",
         pageNumber: 1
     },
-    categories: []
+    categories: [],
+    provinces: []
 };
 
 const homeReducer = (state = defaultState, action) => {
@@ -40,6 +41,18 @@ const homeReducer = (state = defaultState, action) => {
                 ...state,
                 isFetching: false,
                 categories: action.categories
+            };
+
+        case actions.REQUEST_FOR_PROVINCES:
+            return {
+                ...state,
+                isFetching: true
+            };
+        case actions.RECEIVE_PROVINCES:
+            return {
+                ...state,
+                isFetching: false,
+                provinces: action.provinces
             };
         default: return { ...state };
     }
