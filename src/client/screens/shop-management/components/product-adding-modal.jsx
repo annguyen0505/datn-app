@@ -173,6 +173,8 @@ class ProductAddingModal extends React.Component {
 
     handleBtnAddClick() {
         if (this.validateForm()) {
+            const { handleToggleModal } = this.props;
+
             const { productName, price, category } = this.state;
             const { shopId, dispatch } = this.props;
             const payload = {
@@ -183,7 +185,8 @@ class ProductAddingModal extends React.Component {
                 imageUrls: this.imageUrls,
                 storageRefs: this.storageRefs
             };
-            this.handleToggleModal();
+            handleToggleModal();
+            this.resetModal();
             dispatch(addProduct(payload));
         }
     }

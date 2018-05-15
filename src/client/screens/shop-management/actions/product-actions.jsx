@@ -1,4 +1,4 @@
-import { apiGetShopProducts, apiAddPorduct, apiDeleteProduct } from "./../../../apis/shops-management";
+import { apiGetShopProducts, apiAddPorduct, apiDeleteProduct, apiUpdateProduct } from "./../../../apis/shops-management";
 import { showSuccess, showError } from "./../../root-component/actions/notification";
 import { deleteImage } from "./../../../helpers/firebase-helper";
 export const REQUEST_FOR_SHOP_PRODUCTS = "REQUEST_FOR_SHOP_PRODUCTS";
@@ -7,6 +7,8 @@ export const REQUEST_ADD_PRODUCT = "REQUEST_ADD_PRODUCT";
 export const RECEIVE_ADDING_RESPONSE = "RECEIVE_ADDING_RESPONSE";
 export const REQUEST_DELETE_PRODUCT = "REQUEST_DELETE_PRODUCT";
 export const RECEIVE_DELETING_RESPONSE = "RECEIVE_DELETING_RESPONSE";
+export const REQUEST_UPDATE_PRODUCT = "REQUEST_UPDATE_PRODUCT";
+export const RECEIVE_UPDATING_RESPONSE = "RECEIVE_UPDATING_RESPONSE";
 
 export const requestForShopProducts = (criteria) => {
     return {
@@ -46,6 +48,19 @@ export const receiveDeleteProductResponse = (deleteStatus) => {
     return {
         type: RECEIVE_DELETING_RESPONSE,
         deleteStatus
+    };
+};
+
+export const requestUpdateProduct = () => {
+    return {
+        type: REQUEST_UPDATE_PRODUCT
+    };
+};
+
+export const receiveUpdateResponse = (updateStatus) => {
+    return {
+        type: RECEIVE_UPDATING_RESPONSE,
+        updateStatus
     };
 };
 
@@ -93,3 +108,15 @@ export const deleteProduct = (productId) => {
 };
 
 
+export const updateProduct = (payload) => {
+    return (dispatch) => {
+        dispatch(requestUpdateProduct());
+        return apiUpdateProduct(payload, (result) => {
+            dispatch(receiveUpdateResponse(true));
+            dispatch(showSuccess("Cập nhật thành công"));
+        }, (error) => {
+            dispatch(showError(error.toString()));
+        });
+    };
+
+};

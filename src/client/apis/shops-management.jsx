@@ -26,6 +26,9 @@ export const apiGetShopProducts = (criteria, onSuccess, onError) => {
 export const apiAddPorduct = (payload, onSuccess, onError) => {
     return axiosPost("/addProduct", payload).then(onSuccess).catch(onError);
 };
+export const apiUpdateProduct = (payload, onSuccess, onError) => {
+    return axiosPost("/updateProduct", payload).then(onSuccess).catch(onError);
+};
 
 export const apiDeleteProduct = (params, onSuccess, onError) => {
     return axiosGet("/deleteProduct", params).then(onSuccess).catch(onError);

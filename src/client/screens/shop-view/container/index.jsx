@@ -10,7 +10,7 @@ class ShopView extends React.Component {
     render() {
         const { shopId } = this.props.params;
         return (
-            <div>
+            <div className="col-xs-12">
                 <ShopProfile shopId={shopId} />
                 <hr />
                 <ProductFilter shopId={shopId} />

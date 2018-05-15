@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getShopProducts, loadMore } from "./../actions";
 import InfiniteScroll from "react-infinite-scroller";
-
+import { getProducts, addCartItem, removeAllCarts } from "./../../../helpers/cookie-helper";
+import { showSuccess, showError } from "./../../root-component/actions/notification";
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
@@ -24,6 +25,24 @@ class ProductList extends React.Component {
         }
     }
 
+    handleAddItem(productId) {
+        const { dispatch } = this.props;
+        const item = {
+            productId,
+            quantity: 1
+        };
+        try {
+            addCartItem(item);
+            dispatch(showSuccess("Thêm vào giỏ hàng thành công"));
+        } catch (error) {
+            dispatch(showSuccess(error.toString()));
+            removeAllCarts();
+
+        }
+
+        console.log(getProducts());
+    }
+
     handleLoadMore(page) {
 
         const { dispatch } = this.props;
@@ -37,11 +56,23 @@ class ProductList extends React.Component {
             products.map((product, index) => {
                 const { productId, productName, price, categoryName, imgUrl } = product;
                 items.push(
-                    <div key={index} className="col-xs-12 col-md-3" >
-                        <img src={imgUrl} className="col-xs-12 img-thumbnail" style={{ height: "300px" }} alt="..." />
-                        <p>{productName}</p>
-                        <p>{price}VND</p>
-                        <p>{categoryName}</p>
+                    <div key={index}
+                        className="col-xs-12 col-md-3"
+                        style={
+                            {
+                                border: "1px solid black",
+                                margin: "auto",
+                                padding: "5px 5px"
+                            }}
+                    >
+                        <img src={imgUrl} className="col-xs-12" style={{ height: "300px" }} alt="..." />
+                        <div
+                        >
+                            <p>{productName}</p>
+                            <p>{price}VND</p>
+                            <p>{categoryName}</p>
+                            <button onClick={(e) => { this.handleAddItem(productId, e); }} className="btn btn-sm btn-info center-block">Thêm vào giỏ hàng</button>
+                        </div>
                     </div>
                 );
             });

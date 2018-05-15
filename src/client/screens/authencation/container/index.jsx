@@ -18,6 +18,13 @@ class Login extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { isAuthenticated, router } = nextProps;
+        if (isAuthenticated) {
+            router.push("/shop-management");
+        }
+    }
+
     handleInputOnFocus(fieldName, e) {
         e.preventDefault();
         const { inputs } = this.state;
@@ -117,4 +124,13 @@ class Login extends React.Component {
 
 }
 
-export default connect()(Login);
+const mapStateToProps = (state) => {
+    const { authenticationReducer } = state;
+    const { profile, isAuthenticated } = authenticationReducer
+    return {
+        profile,
+        isAuthenticated
+    };
+};
+
+export default connect(mapStateToProps)(Login);

@@ -7,6 +7,7 @@ import Collections from "./commons/collections";
 import Home from "./screens/home/container";
 import ShopView from "./screens/shop-view/container";
 import ShopManagement from "./screens/shop-management/container";
+import CartManagement from "./screens/cart-management/container/index";
 export const routes = (
     <Route path="/" component={MasterPage}>
         <IndexRoute component={Home} />
@@ -15,6 +16,7 @@ export const routes = (
         {/* <Route path="/demo-upload/:shopId" component={UploadDemo} /> */}
         <Route path="/shop-view/:shopId" component={ShopView} />
         <Route path="/shop-management" component={ShopManagement} />
+        <Route path="/cart" component={CartManagement} />
 
     </Route>
 );
