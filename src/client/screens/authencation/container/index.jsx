@@ -19,8 +19,8 @@ class Login extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { isAuthenticated, router } = nextProps;
-        if (isAuthenticated) {
+        const { isAuthenticated, router, isSuccess } = nextProps;
+        if (isAuthenticated && !isSuccess) {
             router.push("/shop-management");
         }
     }
@@ -125,11 +125,13 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { authenticationReducer } = state;
-    const { profile, isAuthenticated } = authenticationReducer
+    const { authenticationReducer, registerReducer } = state;
+    const { profile, isAuthenticated } = authenticationReducer;
+    const { isSuccess } = registerReducer;
     return {
         profile,
-        isAuthenticated
+        isAuthenticated,
+        isSuccess
     };
 };
 

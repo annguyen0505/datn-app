@@ -27,8 +27,14 @@ class ShopManagement extends React.Component {
         const localStorage = window.localStorage;
         const accessToken = getAccessToken(localStorage) || null;
         const profile = accessToken === null ? null : getLocalUserProfile(accessToken);
-        this.shopId = profile.shopId;
-        this.forceUpdate();
+        if (profile === null) {
+            const { router } = this.props;
+            router.push("/login");
+        }
+        else {
+            this.shopId = profile.shopId;
+            this.forceUpdate();
+        }
     }
 
     handleTabClick(index) {

@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
+import {bufferToBoolean} from "./../../helpers/common-helper";
 
 /*eslint-disable */
 
@@ -15,11 +16,11 @@ export class GridLine extends React.Component {
                 switch (column.type) {
                     case "checkbox":
                         return (
-                            <td key={cellId}><input type="checkbox" readOnly="readOnly" checked={data[column.data]} /> </td>
+                            <td key={cellId}><input type="checkbox" readOnly="readOnly" checked={bufferToBoolean(data[column.data])} /> </td>
                         );
                     case "checkboxChange":
                         return (
-                            <td key={cellId}><input type="checkbox" checked={data[column.data]} onChange={(e) => self.props.onCheckboxClick(e.target.checked, column.data)} /> </td>
+                            <td key={cellId}><input type="checkbox" checked={bufferToBoolean(data[column.data])} onChange={(e) => self.props.onCheckboxClick(e.target.checked, column.data)} /> </td>
                         );
 
                     case "image":
@@ -32,7 +33,7 @@ export class GridLine extends React.Component {
                         {
                             let date = "";
                             if (data[column.data]) {
-                                date = moment(data[column.data]).format("MM/DD/YYYY HH:mm:ss A").toString();
+                                date = moment(data[column.data]).format("DD/MM/YYYY HH:mm:ss A").toString();
                             }
                             return (
                                 <td key={cellId}>{date}</td>
@@ -91,7 +92,7 @@ export class GridLine extends React.Component {
                             <button style={
                                 {
                                     marginRight: "5%",
-                                    width: "30%"
+                                    width: "40px"
                                 }
                             } onClick={() => {
                                 self.props.onActionClick(action);

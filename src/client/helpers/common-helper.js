@@ -16,3 +16,24 @@ export const toVNDformat = (moneyValue) => {
     }
     return formatString;
 };
+
+export const isBuffer = (input) => {
+    return input.type === "Buffer";
+};
+
+export const bufferToBoolean = (input) => {
+    let result = false;
+
+    if (isBuffer(input)) {
+        const data = input.data;
+
+        for (const value of data) {
+            if (value === 1) {
+                result = true;
+                break;
+            }
+        }
+    }
+
+    return result;
+};

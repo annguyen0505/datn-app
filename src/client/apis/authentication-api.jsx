@@ -9,3 +9,6 @@ export const apiCheckUserName = (userName, onSuccess, onError) => {
     return axiosGet("/checkUserName", userName).then(onSuccess).catch(onError);
 };
 
+export const apiRegister = (payload, onSuccess, onError) => {
+    return axiosPost("/register", payload).then(onSuccess).catch(onError);
+};
