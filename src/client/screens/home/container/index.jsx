@@ -40,18 +40,18 @@ class Home extends React.Component {
                 return shops.map((shop) => {
 
                     return (
-                        <div key={`shops-${uuidv1()}`} className="col-xs-12">
+                        <div key={`shops-${uuidv1()}`} className="col-xs-6" style={{ marginBottom:"1em", }}>
                             <div className="" >
                                 <div className="col-xs-6">
-                                    <img src={shop.imgUrl} style={{ maxWidth: "300px", height: "auto" }} alt="" className="img-responsive" />
+                                    <img src={shop.imgUrl} style={{ maxWidth: "100%", height: "auto" }} alt="" className="img-responsive" />
                                 </div>
-                                <div className="col-xs-6">
+                                <div className="col-xs-6" style={{ height: "200px" }}>
                                     <div className="caption">
                                         <h3>Cửa hàng: {shop.shopName}</h3>
                                         <p><b>Cung cấp:</b> {shop.categories}</p>
                                         <p><b>Khu vực kinh doanh:</b> {shop.businessLocations}</p>
-                                        <button className="btn btn-info" >
-                                            <Link >Xem</Link>
+                                        <button className="btn btn-info btn-lg"style={{ position: "absolute", bottom: "0", width: "40%" }}>
+                                            <Link style={{color: "white"}}>Xem</Link>
                                         </button>
                                     </div>
                                 </div>

@@ -1,0 +1,364 @@
+2018-05-16T18:27:43.254Z - info: No custom webpack config webpack.config.dev.js found in dirs CWD; CWD\archetype\config\webpack
+2018-05-16T18:27:43.268Z - info: Entry point configuration C:\Users\PHI LONG\Desktop\datn\datn-app\src\client\entry.config.js is not found, using default entry point...
+2018-05-16T18:27:44.158Z - info: PWA enabled with config from C:\Users\PHI LONG\Desktop\datn\datn-app\config\sw-config.js
+2018-05-16T18:27:44.276Z - info: Not disabling NodeSourcePlugin.  NODE_ENV: 'development'
+2018-05-16T18:27:44.277Z - verbose: Final Webpack config {
+  "cache": true,
+  "plugins": [
+    {
+      "options": {
+        "options": {
+          "debug": false
+        },
+        "test": {}
+      },
+      "__name": "LoaderOptionsPlugin"
+    },
+    {
+      "filename": "[name].style.[hash].css",
+      "id": 1,
+      "options": {},
+      "__name": "ExtractTextPlugin"
+    },
+    {
+      "options": {
+        "size": 4000,
+        "preserve": true,
+        "defer": true
+      },
+      "__name": "CSSSplitWebpackPlugin"
+    },
+    {
+      "options": {
+        "options": {
+          "context": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\src",
+          "stylus": {
+            "use": []
+          }
+        },
+        "test": {}
+      },
+      "__name": "LoaderOptionsPlugin"
+    },
+    {
+      "opts": {
+        "filename": "../server/stats.json",
+        "fields": [
+          "assetsByChunkName",
+          "assets"
+        ]
+      },
+      "__name": "StatsWriterPlugin"
+    },
+    {
+      "config": {
+        "valid": false
+      },
+      "options": {
+        "assetsFile": "../isomorphic-assets.json",
+        "webpackDev": {
+          "url": "http://localhost:2992",
+          "addUrl": false
+        }
+      },
+      "__name": "IsomorphicLoaderPlugin"
+    },
+    {
+      "options": {
+        "prefix": "icons-[hash]/",
+        "emitStats": true,
+        "statsFilename": "../server/iconstats.json",
+        "persistentCache": true,
+        "inject": false,
+        "background": "#FFFFFF",
+        "logo": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\src\\client\\images\\electrode.png",
+        "title": "datn-app",
+        "icons": {
+          "android": true,
+          "appleIcon": true,
+          "appleStartup": true,
+          "coast": false,
+          "favicons": true,
+          "firefox": true,
+          "opengraph": false,
+          "twitter": false,
+          "yandex": false,
+          "windows": false
+        }
+      },
+      "__name": "FaviconsWebpackPlugin"
+    },
+    {
+      "fields": {
+        "short_name": "PWA",
+        "theme_color": "#FFFFFF"
+      },
+      "regex": {},
+      "__name": "AddManifestFieldsPlugin"
+    },
+    {
+      "config": {},
+      "options": {
+        "cacheId": "datn-app",
+        "filename": "service-worker.js",
+        "importScripts": [],
+        "staticFileGlobsIgnorePatterns": [],
+        "mergeStaticsConfig": false,
+        "minify": false,
+        "staticFileGlobs": [
+          "dist/**/*"
+        ],
+        "stripPrefix": "dist/js/",
+        "filepath": "dist/sw.js",
+        "maximumFileSizeToCacheInBytes": 4194304,
+        "skipWaiting": false,
+        "noWarning": true,
+        "runtimeCaching": [
+          {
+            "handler": "fastest",
+            "urlPattern": {}
+          }
+        ]
+      },
+      "overrides": {},
+      "warnings": [],
+      "__name": "SWPrecacheWebpackPlugin"
+    },
+    {
+      "opts": {
+        "files": [
+          {
+            "asset": {},
+            "output": {
+              "filename": "stats.json"
+            }
+          }
+        ],
+        "output": {
+          "path": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\.etmp"
+        }
+      },
+      "__name": "DiskPlugin"
+    },
+    {
+      "definitions": {
+        "process.env.NODE_ENV": "\"development\""
+      },
+      "__name": "DefinePlugin"
+    },
+    {
+      "sourceMappingURLComment": "\n//# sourceMappingURL=[url]",
+      "moduleFilenameTemplate": "webpack:///[resourcePath]",
+      "fallbackModuleFilenameTemplate": "webpack:///[resourcePath]?[hash]",
+      "options": {
+        "sourceMapFilename": "[file].map"
+      },
+      "__name": "SourceMapDevToolPlugin"
+    },
+    {
+      "filename": "[name].style.css",
+      "id": 2,
+      "options": {},
+      "__name": "ExtractTextPlugin"
+    },
+    {
+      "__name": "NoEmitOnErrorsPlugin"
+    }
+  ],
+  "context": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\src\\client",
+  "entry": "./app.jsx",
+  "output": {
+    "path": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\dist\\js",
+    "pathinfo": false,
+    "publicPath": "http://localhost:2992/js/",
+    "chunkFilename": "[hash].[name].js",
+    "filename": "[name].bundle.dev.js"
+  },
+  "resolve": {
+    "alias": {},
+    "symlinks": true,
+    "plugins": [
+      {
+        "source": "module",
+        "path": "node_modules",
+        "target": "resolve"
+      }
+    ],
+    "modules": [
+      "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\src",
+      "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app",
+      "node_modules"
+    ],
+    "extensions": [
+      ".js",
+      ".jsx",
+      ".json"
+    ]
+  },
+  "resolveLoader": {
+    "symlinks": true,
+    "modules": [
+      "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\lib",
+      "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app"
+    ],
+    "plugins": [
+      {
+        "source": "module",
+        "path": "node_modules",
+        "target": "resolve"
+      }
+    ]
+  },
+  "module": {
+    "rules": [
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "babel-loader"
+          }
+        ]
+      },
+      {
+        "test": {},
+        "loader": [
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\extract-text-webpack-plugin\\dist\\loader.js",
+            "options": {
+              "omit": 1,
+              "remove": true,
+              "publicPath": ""
+            }
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\style-loader\\index.js"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\css-loader\\index.js?modules&localIdentName=[name]__[local]___[hash:base64:5]&-autoprefixer"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\postcss-loader\\index.js"
+          }
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\extract-text-webpack-plugin\\dist\\loader.js",
+            "options": {
+              "omit": 1,
+              "remove": true,
+              "publicPath": ""
+            }
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\style-loader\\index.js"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\css-loader\\index.js?modules&localIdentName=[name]__[local]___[hash:base64:5]&-autoprefixer"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\postcss-loader\\index.js"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\sass-loader\\lib\\loader.js"
+          }
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\extract-text-webpack-plugin\\dist\\loader.js",
+            "options": {
+              "omit": 1,
+              "remove": true,
+              "publicPath": ""
+            }
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\style-loader\\index.js"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\css-loader\\index.js?modules&localIdentName=[name]__[local]___[hash:base64:5]&-autoprefixer"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\postcss-loader\\index.js"
+          },
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\stylus-relative-loader\\index.js"
+          }
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\url-loader\\index.js",
+            "options": {
+              "limit": 1000,
+              "mimetype": "application/font-woff"
+            }
+          },
+          "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\isomorphic-loader\\index.js"
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\file-loader\\index.js",
+          "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\isomorphic-loader\\index.js"
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\electrode-cdn-file-loader\\index.js",
+            "options": {
+              "limit": 10000
+            }
+          },
+          "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\isomorphic-loader\\index.js"
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\file-loader\\index.js",
+            "options": {
+              "name": "manifest.json"
+            }
+          },
+          "C:\\Users\\PHI LONG\\Desktop\\datn\\datn-app\\node_modules\\web-app-manifest-loader\\index.js"
+        ]
+      }
+    ]
+  },
+  "devServer": {
+    "https": false,
+    "disableHostCheck": true,
+    "headers": {
+      "Access-Control-Allow-Origin": "*"
+    }
+  }
+}
+2018-05-16T18:28:04.967Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:30:35.745Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:33:33.565Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:34:33.210Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:35:55.335Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:36:47.287Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:44:19.023Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:45:44.907Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:47:04.445Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:47:32.517Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:49:16.673Z - info: APP_SRC_DIR set to src/
+2018-05-16T18:54:33.709Z - info: APP_SRC_DIR set to src/
+2018-05-16T19:03:14.267Z - info: APP_SRC_DIR set to src/
+2018-05-16T19:03:28.671Z - info: APP_SRC_DIR set to src/
+2018-05-16T19:04:46.030Z - info: APP_SRC_DIR set to src/
+2018-05-16T19:06:13.982Z - info: APP_SRC_DIR set to src/
+2018-05-16T19:09:57.039Z - info: APP_SRC_DIR set to src/

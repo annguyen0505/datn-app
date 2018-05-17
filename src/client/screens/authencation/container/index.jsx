@@ -75,8 +75,11 @@ class Login extends React.Component {
     render() {
         const { userName, password } = this.state.inputs;
         return (
-            <div className="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
-                <h3>Đăng Nhập</h3>
+            <div className="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4"
+                style={{border: "1px solid black",
+                        borderRadius: "8px",
+                        paddingBottom: "2em", }}>
+                <h3 style={{ textAlign: "center" }}>Đăng Nhập</h3>
                 <div className="col-xs-12">
                     <div className="form-group">
                         <label htmlFor="userName">Tài khoản</label>
@@ -103,10 +106,10 @@ class Login extends React.Component {
                         <label><input type="checkbox" />Ghi nhớ tôi</label>
                     </div>
                     <div className="form-group">
-                        <button className="col-xs-6 btn btn-save" onClick={this.handleBtnLoginClick.bind(this)}>
+                        <button className="col-xs-6 btn btn-success" onClick={this.handleBtnLoginClick.bind(this)}>
                             Đăng nhập
                         </button>
-                        <button className="col-xs-6 btn btn-cancel">
+                        <button className="col-xs-6 btn btn-danger">
                             Hủy
                         </button>
                     </div>

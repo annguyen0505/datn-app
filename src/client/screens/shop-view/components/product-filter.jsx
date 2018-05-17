@@ -66,7 +66,7 @@ class ProductFilter extends React.Component {
             });
         });
         return (
-            <div className="row">
+            <div className="row" style={{ marginBottom: "1em", }}>
                 <div className="col-md-3">
                     <div className="input-group">
                         <label htmlFor="shopOrShopKeeper">Tên sản phẩm</label>
@@ -80,11 +80,11 @@ class ProductFilter extends React.Component {
                     </div>
                 </div>
                 <div className="col-md-3">
-                    <div className="input-group">
-                        <label htmlFor="atPrice">Giá
+                    <div className="input-group inline1">
+                        <label htmlFor="atPrice" style={{ width: "67%" }}>Giá     
                         </label>
                         <input type="number" name="atPrice" className="form-control" id="atPrice" value={atPrice} onChange={(e) => { this.handleInputOnChange(e); }} />
-                        <div>
+                        <div className="inline1" style={{ display: "inline-block", margin: "0 5px", }}>
                             <label>
                                 <input type="radio" name="priceDirection" id="higherPrice" value={1} onChange={(e) => { this.handleInputOnChange(e); }} checked />
                                 Trên

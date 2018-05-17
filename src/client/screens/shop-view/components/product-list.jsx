@@ -37,12 +37,14 @@ class ProductList extends React.Component {
             products.map((product, index) => {
                 const { productId, productName, price, categoryName, imgUrl } = product;
                 items.push(
-                    <div key={index} className="col-xs-12 col-md-3" >
-                        <img src={imgUrl} className="col-xs-12 img-thumbnail" style={{ height: "300px" }} alt="..." />
-                        <p>{productName}</p>
-                        <p>{price}VND</p>
-                        <p>{categoryName}</p>
-                    </div>
+                    <a href="#">
+                        <div key={index} className="col-xs-6 col-md-3" style={{ border: "1px solid #c8cbd1", marginBottom: "20px" }}>
+                            <img src={imgUrl} className="col-xs-12" style={{ height: "270px", marginTop: "10px", marginBottom: "10px", }} alt="..." />
+                            <h4>{productName}</h4>
+                            <p><strong>{price}<sup>đ</sup></strong></p>  
+                            <p><u>{categoryName}</u></p> 
+                        </div>
+                    </a>
                 );
             });
         }

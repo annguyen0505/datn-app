@@ -10,7 +10,7 @@ class ShopView extends React.Component {
     render() {
         const { shopId } = this.props.params;
         return (
-            <div>
+            <div className="container-fluid">
                 <ShopProfile shopId={shopId} />
                 <hr />
                 <ProductFilter shopId={shopId} />
