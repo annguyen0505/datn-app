@@ -5,6 +5,7 @@ import { getShopProducts, loadMore } from "./../actions";
 import InfiniteScroll from "react-infinite-scroller";
 import { getProducts, addCartItem, removeAllCarts } from "./../../../helpers/cookie-helper";
 import { showSuccess, showError } from "./../../root-component/actions/notification";
+import { toVNDformat } from "./../../../helpers/common-helper";
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
@@ -57,35 +58,71 @@ class ProductList extends React.Component {
                 const { productId, productName, price, categoryName, imgUrl } = product;
                 items.push(
                     <div key={index}
-                        className="col-xs-12 col-md-3"
+                        className="col-xs-6 col-md-3"
                         style={
                             {
-                                border: "1px solid black",
-                                margin: "auto",
-                                padding: "5px 5px"
-                            }}
-                    >
-                        <img src={imgUrl} className="col-xs-12" style={{ height: "300px" }} alt="..." />
+                                height: "auto",
+                                maxHeight: "420px",
+                                marginBottom: "1em"
+                            }} >
                         <div
-                        >
-                            <p>{productName}</p>
-                            <p>{price}VND</p>
-                            <p>{categoryName}</p>
-                            <button onClick={(e) => { this.handleAddItem(productId, e); }} className="btn btn-sm btn-info center-block">Thêm vào giỏ hàng</button>
+                            style={
+                                {
+                                    border: "1px solid #39c13057",
+                                    borderRadius: "1em",
+                                    borderWidth: "1px",
+                                    maxWidth: "inherit",
+                                    padding: "1em",
+                                    height: "auto",
+                                    maxHeight: "420px",
+                                    marginBottom: "1em",
+                                    overflow: "hidden",
+                                    backgroundColor: "#f0f8ff"
+
+                                }}>
+                            <div style={{ margin: "auto" }}>
+                                <img src={imgUrl} className="col-xs-12 thumbnail"
+                                    style={{ maxWidth: "inherit", maxHeight: "200px", height: "200px", margin: "auto" }}
+                                    alt="..." />
+                            </div>
+
+                            <div style={
+                                {
+                                    marginTop: "1em",
+                                    clear: "both",
+                                    // border: "1px solid #33333330",
+                                    borderTop: "none",
+                                    padding: "1em",
+                                    borderRadius: "2px",
+                                    fontFamily: "serif",
+                                    margin: "auto"
+
+                                }
+                            }>
+                                <h3>{productName}</h3>
+                                <hr />
+                                <p><strong>{toVNDformat(price)}<sup>đ</sup></strong></p>
+                                <p>{categoryName}</p>
+                                <button onClick={(e) => { this.handleAddItem(productId, e); }}
+                                    className="btn btn-sm btn-info center-block">
+                                    Thêm vào giỏ hàng
+                               </button>
+                            </div>
                         </div>
+
                     </div>
                 );
             });
         }
 
-        return (<div>
+        return (<div >
             <InfiniteScroll
                 pageStart={0}
                 loadMore={this.handleLoadMore.bind(this)}
                 hasMore={this.props.hasMoreItems}
                 ref="scroller"
             >
-                <div className="row">
+                <div className="col-xs-12">
                     {items}
                 </div>
             </InfiniteScroll>

@@ -15,12 +15,16 @@ class MasterPage extends Component {
         dispatch(setUserProfile(localStorage));
     }
 
+    componentWillReceiveProps(nextProps) {
+        // console.log(nextProps);
+    }
+
     render() {
-        const { notificationReducers } = this.props;
+        const { notificationReducers, isAuthenticated } = this.props;
 
         return (
             <div>
-                <Nav />
+                <Nav isAuthenticated={isAuthenticated} />
                 <Notification notification={notificationReducers} />
                 <div>
                     {this.props.children}

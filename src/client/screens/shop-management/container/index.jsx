@@ -14,11 +14,11 @@ class ShopManagement extends React.Component {
         this.state = {
             tabs: [
                 {
-                    title: "Quảng lý sản phẩm",
+                    title: "Quản lý sản phẩm",
                     active: true
                 },
                 {
-                    title: "Quảng lý đơn hàng",
+                    title: "Quản lý đơn hàng",
                     active: false
                 }]
         };
@@ -59,7 +59,7 @@ class ShopManagement extends React.Component {
                 <li onClick={() => {
                     this.handleTabClick(index);
                 }} key={index} className={classNameActive}
-                ><a href="#" key={index}>{tab.title}</a></li>
+                ><a style={{ border: "1px solid black", borderRadius: "4px" }} href="#" key={index}>{tab.title}</a></li>
             );
         });
 
@@ -68,8 +68,8 @@ class ShopManagement extends React.Component {
                 const tab = tabs[i];
                 if (tab.active) {
                     switch (tab.title) {
-                        case "Quảng lý sản phẩm": return <ProductsManagement shopId={this.shopId} />
-                        case "Quảng lý đơn hàng": return <OrdersManagement shopId={this.shopId} />
+                        case "Quản lý sản phẩm": return <ProductsManagement shopId={this.shopId} />
+                        case "Quản lý đơn hàng": return <OrdersManagement shopId={this.shopId} />
                         default: return null;
                     }
                 }
@@ -78,7 +78,8 @@ class ShopManagement extends React.Component {
 
         return (
             <div className="col-xs-12">
-                <h2>Quảng lý cửa hàng</h2>
+                <h2 className="title" style={{ textAlign: "center" }}>Quản lý cửa hàng</h2>
+                <hr />
                 <div className="col-xs-12">
                     <ul className="nav nav-pills">
                         {tabsWillRender}

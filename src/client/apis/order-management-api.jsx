@@ -10,3 +10,7 @@ export const apiDeleteOrder = (params, onSuccess, onError) => {
 export const apiChangeConfirmation = (params, onSuccess, onError) => {
     return axiosGet("/changeConfirmation", params).then(onSuccess).catch(onError);
 };
+
+export const apiGetOrderDetail = (params, onSuccess, onError) => {
+    return axiosGet("/getOrderDetail", params).then(onSuccess).catch(onError);
+};

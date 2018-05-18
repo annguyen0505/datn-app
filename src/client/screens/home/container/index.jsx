@@ -40,23 +40,41 @@ class Home extends React.Component {
                 return shops.map((shop) => {
 
                     return (
-                        <div key={`shops-${uuidv1()}`} className="col-xs-12">
-                            <div className="" >
+                        <div key={`shops-${uuidv1()}`} className="col-xs-6"
+                            style={
+                                {
+                                    height: "250px",
+                                    maxHeight: "250px",
+                                    marginBottom: "1em"
+                                }}>
+                            <div style={
+                                {
+                                    border: "1px solid #39c13057",
+                                    borderRadius: "1em",
+                                    borderWidth: "1px",
+                                    maxWidth: "inherit",
+                                    padding: "3em",
+                                    height: "250px",
+                                    maxHeight: "250px",
+                                    marginBottom: "1em",
+                                    overflow: "hidden",
+                                    backgroundColor: "#f0f8ff"
+                                }} >
                                 <div className="col-xs-6">
-                                    <img src={shop.imgUrl} style={{ maxWidth: "300px", height: "auto" }} alt="" className="img-responsive" />
+                                    <img src={shop.imgUrl} style={{ maxWidth: "95%", maxHeight: "230px", height: "auto", margin: "2px 2px" }} alt="" className="img-thumbnail" />
                                 </div>
-                                <div className="col-xs-6">
+                                <div className="col-xs-6" style={{ height: "200px" }}>
                                     <div className="caption">
                                         <h3>Cửa hàng: {shop.shopName}</h3>
                                         <p><b>Cung cấp:</b> {shop.categories}</p>
                                         <p><b>Khu vực kinh doanh:</b> {shop.businessLocations}</p>
-                                        <button className="btn btn-info" >
-                                            <Link >Xem</Link>
+                                        <button className="btn btn-success btn-sm" style={{ position: "absolute", bottom: "0", width: "40%", backgroundColor: "#28d6285c" }}>
+                                            <Link to={`shops/${shop.shopId}`} style={{ color: "white" }}>Xem</Link>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div >
                     );
                 });
             }

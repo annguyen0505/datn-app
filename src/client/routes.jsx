@@ -15,7 +15,7 @@ export const routes = (
         <Route path="/login" component={Login} />
         <Route path="/demo-collection" component={Collections} />
         {/* <Route path="/demo-upload/:shopId" component={UploadDemo} /> */}
-        <Route path="/shop-view/:shopId" component={ShopView} />
+        <Route path="/shops/:shopId" component={ShopView} />
         <Route path="/shop-management" component={ShopManagement} />
         <Route path="/cart" component={CartManagement} />
         <Route path="/register" component={Register} />

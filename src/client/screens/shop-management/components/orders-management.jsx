@@ -4,15 +4,35 @@ import GridView from "./../../../commons/gridview/gridview";
 import { apiGetOrders } from "./../../../apis/order-management-api";
 import { connect } from "react-redux";
 import { getOrders, deleteOrder, changeConfirmation } from "./../actions/order-action";
-
+import { SimpleSelect } from "react-selectize";
+import OrderDetailModal from "./order-details-modal";
 class OrdersManagement extends React.Component {
     constructor(props) {
         super(props);
+        this.orderSelected = null;
+        this.defaultState = {
+            searchName: "",
+            confirm: {
+                label: "Chọn",
+                value: ""
+            },
+            isOpenDetailModal: false
+        };
+
+        this.state = { ...this.defaultState };
     }
     componentDidMount() {
         const { criteria, dispatch, shopId } = this.props;
         criteria.shopId = shopId;
+        console.log(criteria);
         dispatch(getOrders(criteria));
+    }
+
+    toggleDetailModal() {
+        const { isOpenDetailModal } = this.state;
+        this.setState({
+            isOpenDetailModal: !isOpenDetailModal
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -22,12 +42,38 @@ class OrdersManagement extends React.Component {
         }
     }
 
+    handleInputOnChange(e) {
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
+        });
+    }
+    handleConfirmationChange(value) {
+        this.setState({
+            confirm: value
+        });
+    }
+
+    handleBtnSearchClick() {
+        const { dispatch, criteria } = this.props;
+        const { searchName, confirm } = this.state;
+        criteria.searchName = searchName;
+        criteria.isConfirmed = confirm.value;
+        dispatch(getOrders(criteria));
+    }
+
     handleGridViewActionClick(action, identifier) {
         switch (action) {
             case "delete":
                 {
                     const { dispatch } = this.props;
                     dispatch(deleteOrder(identifier));
+                    break;
+                }
+            case "review":
+                {
+                    this.toggleDetailModal();
+                    this.orderSelected = identifier;
                     break;
                 }
         }
@@ -40,26 +86,78 @@ class OrdersManagement extends React.Component {
 
     //Reload datasource by criteria here
     handleGridViewReload(gridCriteria) {
-        // const { criteria, dispatch } = this.props;
-        // const { page, itemPerPage } = gridCriteria;
-        // const newCriteria = {
-        //     ...criteria,
-        //     pageNumber: page,
-        //     pageSize: itemPerPage
-        // };
-        // dispatch(getShopProducts(newCriteria));
+        const { criteria, dispatch } = this.props;
+        const { page, itemPerPage } = gridCriteria;
+        const newCriteria = {
+            ...criteria,
+            pageNumber: page,
+            pageSize: itemPerPage
+        };
+        console.log(newCriteria);
+        dispatch(getOrders(newCriteria));
     }
 
     render() {
         const { columns, criteria, orders, totalRecords } = this.props;
+        const { searchName, confirm } = this.state;
+        const confirmationOptions = [
+            {
+                label: "Chọn",
+                value: ""
+            },
+            {
+                label: "Xác nhận",
+                value: 1
+            },
+            {
+                label: "Chưa xác nhận",
+                value: 0
+            }
+        ];
         const gridCriteria = {
             sortColumn: "RowNumber",
             sortDirection: true,
-            page: criteria.pageNumber,
+            page: parseInt(criteria.pageNumber),
             itemPerPage: criteria.pageSize
         };
         return (
-            <div className="row">
+            <div style={{ marginTop: "1em" }} className="col-xs-12">
+                <div className="row" style={{ marginBottom: "1em" }}>
+                    <div className="col-md-3">
+                        <div className="input-group">
+                            <label htmlFor="searchName">Thông tin khác hàng</label>
+                            <input type="text"
+                                name="searchName" className="form-control"
+                                id="searchName"
+                                value={searchName}
+                                onChange={(e) => { this.handleInputOnChange(e); }}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <div className="input-group ">
+                            <label htmlFor="shopOrShopKeeper">Xác nhận</label>
+                            <SimpleSelect options={confirmationOptions}
+                                theme="bootstrap3"
+                                value={confirm}
+                                onValueChange={this.handleConfirmationChange.bind(this)}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-3 pull-right">
+                        <label className="invisible">hidden text</label>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <button type="button" className="col-md-12 btn btn-success"
+                                    onClick={(e) => { this.handleBtnSearchClick(e); }}>Tìm kiếm</button>
+                            </div>
+                            <div className="col-md-6">
+                                <button type="button" className=" col-md-12 btn btn-default col-md-12"
+                                    onClick={(e) => { this.handleBtnResetClick(e); }}>Trở về</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <GridView
                     allowSorting={false}
                     criteria={gridCriteria}
@@ -74,6 +172,10 @@ class OrdersManagement extends React.Component {
                     onActionClick={this.handleGridViewActionClick.bind(this)} //Handle actions
                     onCheckboxClick={this.handleGridViewCheckBoxClick.bind(this)}
                 />
+                {this.state.isOpenDetailModal ? <OrderDetailModal
+                    isOpenDetailModal={this.state.isOpenDetailModal}
+                    handleToggleModal={this.toggleDetailModal.bind(this)}
+                    orderId={this.orderSelected} /> : null}
             </div>
         );
     }
@@ -100,7 +202,7 @@ OrdersManagement.defaultProps = {
             data: "customerName"
         },
         {
-            title: "Địa chỉ khách hàn",
+            title: "Địa chỉ khách hàng",
             data: "customerAddress"
         },
         {

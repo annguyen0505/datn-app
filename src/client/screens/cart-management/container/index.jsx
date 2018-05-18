@@ -188,6 +188,7 @@ class CartManagement extends React.Component {
                     });
 
                 };
+                
                 return (
                     <div key={cartIndex}>
                         <div className="col-12">

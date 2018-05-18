@@ -3,7 +3,7 @@ import * as actions from "./../actions/order-action";
 const defaultState = {
     criteria: {
         pageNumber: 1,
-        pageSize: 20,
+        pageSize: 25,
         searchName: "",
         shopId: ""
     },

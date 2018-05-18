@@ -16,8 +16,7 @@ class ProductsManagement extends React.Component {
     render() {
         const { shopId } = this.props;
         return (
-            <div className="col-xs-12">
-                <h2>Products Management</h2>
+            <div className="col-xs-12" style={{ marginTop: "1em" }}>
                 <div className="">
                     {shopId !== null ? <ShopProfile shopId={`${shopId}`} /> : null}
                 </div>

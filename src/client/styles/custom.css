@@ -1,3 +1,11 @@
+body{
+  font-family:  Arial, Helvetica, sans-serif;
+}
+
+.title{
+  font-family: serif;
+  color: #31708f;
+}
 .container {
   max-width: 800px;
   width: 90%;
