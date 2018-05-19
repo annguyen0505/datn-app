@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { getOrders, deleteOrder, changeConfirmation } from "./../actions/order-action";
 import { SimpleSelect } from "react-selectize";
 import OrderDetailModal from "./order-details-modal";
+import DeleteOrderModal from "./order-delete-modal";
 class OrdersManagement extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +17,8 @@ class OrdersManagement extends React.Component {
                 label: "Chọn",
                 value: ""
             },
-            isOpenDetailModal: false
+            isOpenDetailModal: false,
+            isOpenDeleteModal: false
         };
 
         this.state = { ...this.defaultState };
@@ -32,6 +34,12 @@ class OrdersManagement extends React.Component {
         const { isOpenDetailModal } = this.state;
         this.setState({
             isOpenDetailModal: !isOpenDetailModal
+        });
+    }
+    toggleDeleteModal() {
+        const { isOpenDeleteModal } = this.state;
+        this.setState({
+            isOpenDeleteModal: !isOpenDeleteModal
         });
     }
 
@@ -66,17 +74,24 @@ class OrdersManagement extends React.Component {
         switch (action) {
             case "delete":
                 {
-                    const { dispatch } = this.props;
-                    dispatch(deleteOrder(identifier));
+                    this.orderSelected = identifier;
+
+                    this.toggleDeleteModal();
                     break;
                 }
             case "review":
                 {
-                    this.toggleDetailModal();
                     this.orderSelected = identifier;
+                    this.toggleDetailModal();
                     break;
                 }
         }
+    }
+
+    handleAcceptDelete() {
+        const { dispatch } = this.props;
+        dispatch(deleteOrder(this.orderSelected));
+        this.toggleDeleteModal();
     }
 
     handleGridViewCheckBoxClick(identifier, value, column) {
@@ -176,6 +191,11 @@ class OrdersManagement extends React.Component {
                     isOpenDetailModal={this.state.isOpenDetailModal}
                     handleToggleModal={this.toggleDetailModal.bind(this)}
                     orderId={this.orderSelected} /> : null}
+                <DeleteOrderModal
+                    isOpenDeleteModal={this.state.isOpenDeleteModal}
+                    handleToggleModal={this.toggleDeleteModal.bind(this)}
+                    onAcceptDetete={this.handleAcceptDelete.bind(this)}
+                />
             </div>
         );
     }

@@ -1,29 +1,60 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getShopProducts, loadMore } from "./../actions";
+import { getShopProducts, loadMore, resetShopView } from "./../actions";
 import InfiniteScroll from "react-infinite-scroller";
 import { getProducts, addCartItem, removeAllCarts } from "./../../../helpers/cookie-helper";
 import { showSuccess, showError } from "./../../root-component/actions/notification";
 import { toVNDformat } from "./../../../helpers/common-helper";
+import ProductDetailModal from "./product-detail-modal";
+
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
         const { criteria, shopId } = this.props;
         criteria.shopId = shopId;
+        this.selectedProduct = null;
+        this.state = {
+            isOpenDetailModal: false
+        };
+    }
+
+    componentDidMount() {
+        const { dispatch, criteria } = this.props;
+        console.log(criteria);
+        dispatch(getShopProducts(criteria));
+        window.addEventListener("scroll", this.handleScroll.bind(this));
+    }
+
+    componentWillUnmount() {
+        const { dispatch } = this.props;
+        console.log("unmout");
+        dispatch(resetShopView());
+        window.removeEventListener("scroll", this.handleScroll.bind(this));
+    }
+
+    handleScroll(event) {
+        const { hasMoreItems } = this.props;
+        if ($(window).scrollTop() + $(window).height() === $(document).height() && hasMoreItems) {
+            const { dispatch, criteria } = this.props;
+            criteria.pageNumber = ++criteria.pageNumber;
+            dispatch(getShopProducts(criteria));
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        const { resetPage, needReload, dispatch } = nextProps;
-
-        if (resetPage) {
-            this.refs.scroller.pageLoaded = 0;
-            window.scrollTo(0, 0);
-        }
+        const { needReload, dispatch } = nextProps;
         if (needReload) {
             const { criteria } = nextProps;
             dispatch(getShopProducts(criteria));
         }
+    }
+
+    toggleDetailModal() {
+        const { isOpenDetailModal } = this.state;
+        this.setState({
+            isOpenDetailModal: !isOpenDetailModal
+        });
     }
 
     handleAddItem(productId) {
@@ -94,7 +125,7 @@ class ProductList extends React.Component {
                                     borderTop: "none",
                                     padding: "1em",
                                     borderRadius: "2px",
-                                    fontFamily: "serif",
+                                    fontFamily: "Sans-serif",
                                     margin: "auto"
 
                                 }
@@ -103,10 +134,33 @@ class ProductList extends React.Component {
                                 <hr />
                                 <p><strong>{toVNDformat(price)}<sup>đ</sup></strong></p>
                                 <p>{categoryName}</p>
-                                <button onClick={(e) => { this.handleAddItem(productId, e); }}
-                                    className="btn btn-sm btn-info center-block">
-                                    Thêm vào giỏ hàng
-                               </button>
+                                <div className="row"
+                                    style={{
+                                        margin: "auto"
+                                    }}>
+                                    <div className="col-xs-6">
+                                        <button
+                                            style={{
+                                                width: "100px"
+                                            }}
+                                            onClick={(e) => { this.handleAddItem(productId, e); }}
+                                            className="btn btn-sm btn-info pull-right">
+                                            Thêm <i className="fa fa-shopping-cart"></i>
+                                        </button>
+                                    </div>
+                                    <div className="col-xs-6">
+                                        <button style={{
+                                            width: "100px"
+                                        }}
+                                            onClick={(e) => {
+                                                this.selectedProduct = productId;
+                                                this.toggleDetailModal(e);
+                                            }}
+                                            className="btn btn-sm btn-info">
+                                            Hình ảnh
+                                    </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -116,16 +170,25 @@ class ProductList extends React.Component {
         }
 
         return (<div >
-            <InfiniteScroll
+            {/* <InfiniteScroll
                 pageStart={0}
                 loadMore={this.handleLoadMore.bind(this)}
                 hasMore={this.props.hasMoreItems}
                 ref="scroller"
+                useWindow={true}
             >
                 <div className="col-xs-12">
                     {items}
                 </div>
-            </InfiniteScroll>
+            </InfiniteScroll> */}
+            <div className="col-xs-12">
+                {items}
+            </div>
+            {this.state.isOpenDetailModal ? <ProductDetailModal
+                productId={this.selectedProduct}
+                isOpenDetailModal={this.state.isOpenDetailModal}
+                onToggleModal={this.toggleDetailModal.bind(this)}
+            /> : null}
         </div>
 
         );

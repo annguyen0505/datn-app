@@ -40,3 +40,8 @@ export const apiDeleteProduct = (params, onSuccess, onError) => {
 export const apiGetProduct = (params, onSuccess, onError) => {
     return axiosGet("/getProduct", params).then(onSuccess).catch(onError);
 };
+
+
+export const apiGetProductDetail = (params, onSuccess, onError) => {
+    return axiosGet("/getProductDetail", params).then(onSuccess).catch(onError);
+};

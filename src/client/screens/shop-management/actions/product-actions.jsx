@@ -1,8 +1,8 @@
 import { apiGetShopProducts, apiAddPorduct, apiDeleteProduct, apiUpdateProduct } from "./../../../apis/shops-management";
 import { showSuccess, showError } from "./../../root-component/actions/notification";
 import { deleteImage } from "./../../../helpers/firebase-helper";
-export const REQUEST_FOR_SHOP_PRODUCTS = "REQUEST_FOR_SHOP_PRODUCTS";
-export const RECEIVE_SHOP_PRODUCTS = "RECEIVE_SHOP_PRODUCTS";
+export const REQUEST_FOR_SHOPKEEPER_PRODUCTS = "REQUEST_FOR_SHOPKEEPER_PRODUCTS";
+export const RECEIVE_SHOPKEEPER_PRODUCTS = "RECEIVE_SHOPKEEPER_PRODUCTS";
 export const REQUEST_ADD_PRODUCT = "REQUEST_ADD_PRODUCT";
 export const RECEIVE_ADDING_RESPONSE = "RECEIVE_ADDING_RESPONSE";
 export const REQUEST_DELETE_PRODUCT = "REQUEST_DELETE_PRODUCT";
@@ -12,7 +12,7 @@ export const RECEIVE_UPDATING_RESPONSE = "RECEIVE_UPDATING_RESPONSE";
 
 export const requestForShopProducts = (criteria) => {
     return {
-        type: REQUEST_FOR_SHOP_PRODUCTS,
+        type: REQUEST_FOR_SHOPKEEPER_PRODUCTS,
         criteria
     };
 
@@ -20,7 +20,7 @@ export const requestForShopProducts = (criteria) => {
 
 export const receiveShopProducts = (products, totalRecords) => {
     return {
-        type: RECEIVE_SHOP_PRODUCTS,
+        type: RECEIVE_SHOPKEEPER_PRODUCTS,
         products,
         totalRecords
     };

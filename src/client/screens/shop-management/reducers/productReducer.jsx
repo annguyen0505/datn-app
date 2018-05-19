@@ -23,14 +23,14 @@ const productReducer = (state = defaultState, action) => {
     switch (action.type) {
 
 
-        case actions.REQUEST_FOR_SHOP_PRODUCTS: return {
+        case actions.REQUEST_FOR_SHOPKEEPER_PRODUCTS: return {
             ...state,
             isFetching: true,
             needReload: false,
             criteria: action.criteria
         };
 
-        case actions.RECEIVE_SHOP_PRODUCTS: {
+        case actions.RECEIVE_SHOPKEEPER_PRODUCTS: {
 
             return {
                 ...state,

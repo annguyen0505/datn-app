@@ -3,31 +3,44 @@ import * as actions from "./../actions/index";
 const defaultState = {
     shops: [],
     totalRecords: 0,
-    searchCriteria: {
+    criteria: {
         searchName: "",
         category: "",
         pageNumber: 1
     },
     categories: [],
-    provinces: []
+    provinces: [],
+    needReload: false,
+    hasMoreItems: true
 };
 
 const homeReducer = (state = defaultState, action) => {
 
     switch (action.type) {
         case actions.REQUEST_FOR_SHOPS:
-            return {
-                ...state,
-                isFetching: true
-            };
+            {
+                const shops = action.isSearch ? [] : state.shops;
+                return {
+                    ...state,
+                    isFetching: true,
+                    criteria: action.criteria,
+                    needReload: false,
+                    shops
+                };
+            }
         case actions.RECEIVE_SHOPS:
             {
-                const { shops, totalRecords } = action;
+                let shops = [...state.shops];
+                if (action.shops) {
+                    shops = [...shops, ...action.shops];
+                }
                 return {
                     ...state,
                     isFetching: false,
+                    totalRecords: action.totalRecords,
                     shops,
-                    totalRecords
+                    hasMoreItems: action.hasMoreItems,
+                    resetPage: false
                 };
             }
 
@@ -54,6 +67,20 @@ const homeReducer = (state = defaultState, action) => {
                 isFetching: false,
                 provinces: action.provinces
             };
+
+        case actions.LOAD_MORE_SHOPS: {
+            const { criteria } = state;
+            return {
+                ...state,
+                criteria: {
+                    ...criteria,
+                    pageNumber: action.pageNumber
+                },
+                needReload: true,
+                hasMoreItems: false
+            };
+        }
+
         default: return { ...state };
     }
 };

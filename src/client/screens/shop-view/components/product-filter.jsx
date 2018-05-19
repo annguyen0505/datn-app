@@ -22,12 +22,9 @@ class ProductFilter extends React.Component {
     }
 
     handleInputOnChange(e) {
-        e.preventDefault();
         const property = e.target.name;
         const value = e.target.value;
-        this.setState({
-            [property]: value
-        });
+        this.setState({ [property]: value });
     }
 
     handlecategorySelected(value) {
@@ -46,14 +43,15 @@ class ProductFilter extends React.Component {
             atPrice,
             productName,
             category,
-            priceDirection
+            priceDirection,
+            pageNumber: 1
         };
         dispatch(searchProducts(newCriteria));
     }
 
     render() {
         const { categories } = this.props;
-        const { atPrice, productName, category } = this.state;
+        const { atPrice, productName, category, priceDirection } = this.state;
         const categoryOptions = [{
             label: "Tất cả",
             value: ""
@@ -81,16 +79,16 @@ class ProductFilter extends React.Component {
                 </div>
                 <div className="col-md-3">
                     <div className="input-group inline1">
-                        <label htmlFor="atPrice" style={{ width: "67%" }}>Giá     
+                        <label htmlFor="atPrice" style={{ width: "67%" }}>Giá
                         </label>
                         <input type="number" name="atPrice" className="form-control" id="atPrice" value={atPrice} onChange={(e) => { this.handleInputOnChange(e); }} />
                         <div className="inline1" style={{ display: "inline-block", margin: "0 5px", }}>
                             <label>
-                                <input type="radio" name="priceDirection" id="higherPrice" value={1} onChange={(e) => { this.handleInputOnChange(e); }} checked />
+                                <input type="radio" name="priceDirection" id="higherPrice" value={1} onChange={(e) => { this.handleInputOnChange(e); }} checked={!!parseInt(priceDirection)} />
                                 Trên
                             </label>
                             <label>
-                                <input type="radio" name="priceDirection" id="lowerPrice" value={0} onChange={(e) => { this.handleInputOnChange(e); }} />
+                                <input type="radio" name="priceDirection" id="lowerPrice" value={0} onChange={(e) => { this.handleInputOnChange(e); }} checked={!parseInt(priceDirection)} />
                                 Dưới
                            </label>
                         </div>

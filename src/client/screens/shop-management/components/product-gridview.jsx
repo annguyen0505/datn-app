@@ -161,7 +161,8 @@ ProductGridView.defaultProps = {
         },
         {
             title: "Giá",
-            data: "price"
+            data: "price",
+            type: "money"
         },
         {
             title: "Loại Sản Phẩm",

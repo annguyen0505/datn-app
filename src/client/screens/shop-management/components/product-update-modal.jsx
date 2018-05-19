@@ -186,7 +186,8 @@ class ProductUpdateModal extends React.Component {
                             />
                         </div>
                         <div className="row">
-                            <button onClick={(e) => { this.handleDeleteImage(index, e); }} className="btn btn-default center-block">Xóa</button>
+                            <button onClick={(e) => { this.handleDeleteImage(index, e); }} 
+                            className="btn btn-default center-block">Xóa</button>
                         </div>
                     </div>
                 );

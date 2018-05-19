@@ -1,6 +1,6 @@
 import * as actions from "./../actions/index";
 
-const defaultState = {
+export const defaultState = {
     shop: {
         shopName: "",
         shopAddress: "",
@@ -26,7 +26,7 @@ const defaultState = {
     products: []
 };
 
-const shopViewReducer = (state = defaultState, action) => {
+const shopViewReducer = (state = { ...defaultState }, action) => {
 
     switch (action.type) {
         case actions.REQUEST_FOR_SHOPVIEW: return {
@@ -52,7 +52,7 @@ const shopViewReducer = (state = defaultState, action) => {
             isFetching: true,
             needReload: false
         };
-        
+
         case actions.RECEIVE_SHOP_PRODUCTS: {
             let products = [...state.products];
             if (action.products) {
@@ -81,14 +81,23 @@ const shopViewReducer = (state = defaultState, action) => {
             };
         }
         case actions.SEARCH_SHOP_PRODUCTS:
+            {
+                return {
+                    ...state,
+                    criteria: action.criteria,
+                    products: [],
+                    needReload: true,
+                    hasMoreItems: true,
+                    resetPage: true
+                };
+            }
+        case actions.RESET_SHOPVIEW: {
             return {
-                ...state,
-                criteria: action.criteria,
-                products: [],
-                hasMoreItems: true,
-                resetPage: true
+                ...defaultState
             };
-        default: return { ...state };
+        }
+
+        default: return state;
     }
 };
 

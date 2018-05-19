@@ -7,6 +7,7 @@ class ShopView extends React.Component {
         super(props);
     }
 
+
     render() {
         const { shopId } = this.props.params;
         return (

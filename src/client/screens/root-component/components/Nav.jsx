@@ -1,7 +1,10 @@
+/*eslint-disable */
+
 import React from "react";
 import { getAccessToken } from "./../../../helpers/cookie-helper";
 import { getLocalUserProfile } from "./../../../helpers/jwt-helper";
 import { Link } from "react-router";
+import { connect } from "react-redux";
 
 
 class Nav extends React.Component {
@@ -16,12 +19,17 @@ class Nav extends React.Component {
         this.profile = profile;
     }
 
+    navidateTo(path) {
+        const { router } = this.props;
+        router.push(path);
+    }
+
     render() {
 
         const { isAuthenticated } = this.props;
         return (
             <nav className="navbar navbar-default nav-background"
-                >
+            >
                 <div className="container-fluid">
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -35,11 +43,12 @@ class Nav extends React.Component {
                         <ul className="nav navbar-nav">
                             <li><Link to="/">Trang chủ</Link></li>
                             {isAuthenticated ?
-                                <li>
-                                    <Link to="/shop-management">Quản lý cửa hàng</Link>
+                                <li onClick={(e) => { this.navidateTo("/shop-management", e); }}>
+                                    {/* <Link to="/shop-management">Quản lý cửa hàng</Link> */}
+                                    <a>Quản lý cửa hàng</a>
                                 </li> : null
                             }
-                            <li><Link to="/cart">Giỏ hàng</Link></li>
+                            <li onClick={(e) => { this.navidateTo("/cart", e); }}>  <a>Giỏ hàng</a></li>
                         </ul>
                         {isAuthenticated ? <ul className="nav navbar-nav navbar-right">
                             <li><a href="#"><span className="glyphicon glyphicon-user" /> {this.profile.userName}</a></li>
@@ -54,5 +63,9 @@ class Nav extends React.Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
 
-export default Nav;
+    };
+};
+export default connect(mapStateToProps)(Nav);

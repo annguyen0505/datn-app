@@ -6,26 +6,31 @@ export const REQUEST_FOR_CATEGORIES = "REQUEST_FOR_CATEGORIES";
 export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES";
 export const REQUEST_FOR_PROVINCES = "REQUEST_FOR_PROVINCES";
 export const RECEIVE_PROVINCES = "REVEIVE_PROVINCES";
-export const requestForShops = () => {
+export const LOAD_MORE_SHOPS = "LOAD_MORE_SHOPS";
+
+export const requestForShops = (criteria, isSearch) => {
     return {
-        type: REQUEST_FOR_SHOPS
+        type: REQUEST_FOR_SHOPS,
+        criteria,
+        isSearch
     };
 };
 
-export const receiveShops = (shops, totalRecords) => {
+export const receiveShops = (shops, hasMoreItems) => {
     return {
         type: RECEIVE_SHOPS,
         shops,
-        totalRecords
+        hasMoreItems
     };
 };
 
-export const getShops = (params) => {
+export const getShops = (criteria, isSearch = false) => {
     return (dispatch) => {
-        dispatch(requestForShops());
-        return apiGetShops(params, (result) => {
+        dispatch(requestForShops(criteria, isSearch));
+        return apiGetShops(criteria, (result) => {
             const { shops, totalRecords } = result.data;
-            dispatch(receiveShops(shops, totalRecords));
+            const hasMoreItems = Math.round(totalRecords / 6) + 1 > criteria.pageNumber;
+            dispatch(receiveShops(shops, hasMoreItems));
         }, (error) => {
             console.log(error);
         });
@@ -87,8 +92,14 @@ export const getProvinces = () => {
 export const getInitialState = (seachCriteria) => {
     return (dispatch) => {
         dispatch(getProvinces());
-        dispatch(getShops(seachCriteria)).then(() => {
-            dispatch(getCategories());
-        });
+        dispatch(getCategories());
+        dispatch(getShops(seachCriteria));
+    };
+};
+
+export const loadMoreShops = (nextPage) => {
+    return {
+        type: LOAD_MORE_SHOPS,
+        pageNumber: nextPage
     };
 };

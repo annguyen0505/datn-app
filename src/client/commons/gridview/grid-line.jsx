@@ -1,7 +1,8 @@
 import React from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
-import {bufferToBoolean} from "./../../helpers/common-helper";
+import { bufferToBoolean } from "./../../helpers/common-helper";
+import { toVNDformat } from "./../../helpers/common-helper";
 
 /*eslint-disable */
 
@@ -27,7 +28,11 @@ export class GridLine extends React.Component {
                         return (<td key={cellId}><img src={data[column.data]} style={{ width: "auto", height: "auto", maxWidth: "50px", maxHeight: "50px" }} />
                         </td>
                         );
-                  
+                    case "money":
+                        return (<td key={cellId}>
+                            {toVNDformat(data[column.data])}<sup><u>đ</u></sup>
+                        </td>
+                        );
 
                     case "datetime":
                         {

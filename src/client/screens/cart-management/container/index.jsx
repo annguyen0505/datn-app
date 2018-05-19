@@ -188,11 +188,11 @@ class CartManagement extends React.Component {
                     });
 
                 };
-                
+
                 return (
                     <div key={cartIndex}>
-                        <div className="col-12">
-                            <h3 style={{ marginBottom: ".5em" }}>{cart.shopName}</h3>
+                        <div className="col-xs-12">
+                            <h3 className="title" style={{ marginBottom: ".5em" }}>{cart.shopName.toUpperCase()}</h3>
                         </div>
                         <div className="col-12">
                             <table className="table table-bordered table-hover text-center">
@@ -219,7 +219,7 @@ class CartManagement extends React.Component {
                                     style={{ width: "100px", marginRight: "5px" }}
                                     onClick={(e) => { this.handlePlaceOrder(cartIndex, e); }}
                                     className="btn btn-success">Đặt hàng</a>
-                                <a href="#" style={{ width: "100px" }} className="btn btn-danger">Hủy bỏ</a>
+                                <a href="#" style={{ width: "100px" }} className="btn btn-default">Hủy bỏ</a>
                             </div>
                         </div>
                     </div>
@@ -230,7 +230,7 @@ class CartManagement extends React.Component {
 
         return (
             <div className="container">
-                <h2 style={{ marginBottom: ".5em", marginTop: ".1em" }}>Giỏ hàng</h2>
+                <h2 className="title" style={{ marginBottom: ".5em", marginTop: ".1em" }}>Giỏ hàng</h2>
 
                 {renderCarts()}
                 {isOpenPlaceOrderModal ?

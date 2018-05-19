@@ -211,10 +211,18 @@ class ProductAddingModal extends React.Component {
         const renderPreviewer = () => {
             return images.map((image, index) => {
                 return (
-                    <div key={index}>
-                        <img src={image} style={{ width: "auto", height: "auto", maxWidth: "100px", maxHeight: "100px" }} />
+                    <div key={index} className="col-xs-3">
+                        <div>
+                        <img src={image} 
+                       className="img-thumbnail center-block"
+                       style={{ width: "inherit", height: "150px" }}
+                        />
+                        </div>
                         <br />
-                        <button onClick={() => { this.handleRemoveImage(index); }} className="btn btn-default">Xóa</button>
+                        <div className="row">
+                        <button onClick={() => { this.handleRemoveImage(index); }}
+                        className="btn btn-default center-block">Xóa</button>
+                        </div>
                     </div>
                 );
             });
