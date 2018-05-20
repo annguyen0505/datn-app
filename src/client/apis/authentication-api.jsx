@@ -6,7 +6,7 @@ export const apiLogin = (credential, onSuccess, onError) => {
 };
 
 export const apiCheckUserName = (userName, onSuccess, onError) => {
-    return axiosGet("/checkUserName", userName).then(onSuccess).catch(onError);
+    return axiosGet("/checkUserIsExist", userName).then(onSuccess).catch(onError);
 };
 
 export const apiRegister = (payload, onSuccess, onError) => {

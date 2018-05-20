@@ -44,13 +44,17 @@ class Nav extends React.Component {
                             <span className="icon-bar" />
                             <span className="icon-bar" />
                         </button>
-                        <a className="navbar-brand" href="#">LOGO</a>
+                        <a href="#" className="navbar-left"><img style={{
+                            width: "70px",
+                            height: "50px"
+                        }}
+                            src="https://firebasestorage.googleapis.com/v0/b/datn-827e8.appspot.com/o/images%2Flogo_offical.png?alt=media&token=0545cfc8-bf61-4464-8018-16f996ba4ce5" /></a>
                     </div>
                     <div className="collapse navbar-collapse" id="myNavbar">
                         <ul className="nav navbar-nav">
                             <li><Link to="/">Trang chủ</Link></li>
                             {isAuthenticated ?
-                                <li onClick={(e) => { this.navidateTo("/shop-management", e); }}>
+                                <li >
                                     <Link to="/shop-management">Quản lý cửa hàng</Link>
                                 </li> : null
                             }
@@ -60,13 +64,11 @@ class Nav extends React.Component {
                             <li><a href="#"><span className="glyphicon glyphicon-user" /> {this.profile.userName}</a></li>
                             <li onClick={(e) => { this.handleLogout(e); }}><a href="#"><span className="glyphicon glyphicon-log-in" /> Đăng xuất </a></li>
                         </ul> : <ul className="nav navbar-nav navbar-right">
-                                <li><a href="#">
-                                    <span className="glyphicon glyphicon-user" />
-                                    <Link to="/register"> Đăng ký</Link></a></li>
-                                <li><a href="#">
-                                    <span className="glyphicon glyphicon-log-in" />
-                                    <Link to="/login"> Đăng nhập</Link>
-                                </a></li>
+                                <li>
+                                    <Link to="/register"><span className="glyphicon glyphicon-user" /> Đăng ký</Link></li>
+                                <li>
+                                    <Link to="/login"> <span className="glyphicon glyphicon-log-in" /> Đăng nhập</Link>
+                                </li>
                             </ul>}
                     </div>
                 </div>

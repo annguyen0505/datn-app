@@ -5,13 +5,14 @@ import { MultiSelect } from "react-selectize";
 import { getInitialState, register } from "./../actions/index";
 import { uploadImage } from "./../../../helpers/firebase-helper";
 import { isEmptyInput, validateEmail, validatePhoneNumber } from "./../../../helpers/validation-helper";
-
+import { apiCheckUserName } from "./../../../apis/authentication-api";
 class Register extends React.Component {
     constructor(props) {
         super(props);
         this.file = null;
         this.defaultState = {
-            coverPhoto: "https://www.ibridgenetwork.org/images/content/default-cover.jpg",
+            coverPhoto: "https://firebasestorage.googleapis.com/v0/b/datn-827e8.appspot.com/o/images%2Fdefault-cover.jpg?alt=media&token=9764a674-c9bf-4959-8ab1-cf31a99056af",
+            coverPhotoRef: "images/default-cover.jpg",
             selectedCategories: [],
             selectedProvinces: [],
             userName: {
@@ -105,34 +106,47 @@ class Register extends React.Component {
     }
     /*eslint-disable */
 
-    handleInputOnBlur(e) {
-        e.preventDefault();
+    validateInputs(isSumit = false) {
+
         const {
             userName, password, confirmPassword,
             shopName, shopAddress, shopEmail, shopPhone } = this.state;
 
-        userName.message = userName.isDirty && isEmptyInput(userName.value.trim()) ? "Nhập tên tài khoản" : "";
-        password.message = password.isDirty && isEmptyInput(password.value.trim()) ? "Nhập tên mật khẩu" : "";
-        confirmPassword.message = confirmPassword.isDirty && isEmptyInput(confirmPassword.value.trim()) ? "Xác thực mật khẩu" : "";
-        shopName.message = shopName.isDirty && isEmptyInput(shopName.value.trim()) ? "Nhập tên cửa hàng" : "";
-        shopAddress.message = shopAddress.isDirty && isEmptyInput(shopAddress.value.trim()) ? "Nhập địa chỉ cửa hàng" : "";
-        shopEmail.message = shopEmail.isDirty && isEmptyInput(shopEmail.value.trim()) ? "Nhập Email cửa hàng" : "";
-        shopPhone.message = shopPhone.isDirty && isEmptyInput(shopPhone.value.trim()) ? "Nhập điện thoại cửa hàng" : "";
+        userName.message = (userName.isDirty || isSumit) && isEmptyInput(userName.value.trim()) ? "Nhập tên tài khoản" : "";
+        password.message = (password.isDirty || isSumit) && isEmptyInput(password.value.trim()) ? "Nhập tên mật khẩu" : "";
+        confirmPassword.message = (confirmPassword.isDirty || isSumit) && isEmptyInput(confirmPassword.value.trim()) ? "Xác thực mật khẩu" : "";
+        shopName.message = (shopName.isDirty || isSumit) && isEmptyInput(shopName.value.trim()) ? "Nhập tên cửa hàng" : "";
+        shopAddress.message = (shopAddress.isDirty || isSumit) && isEmptyInput(shopAddress.value.trim()) ? "Nhập địa chỉ cửa hàng" : "";
+        shopEmail.message = (shopEmail.isDirty || isSumit) && isEmptyInput(shopEmail.value.trim()) ? "Nhập Email cửa hàng" : "";
+        shopPhone.message = (shopPhone.isDirty || isSumit) && isEmptyInput(shopPhone.value.trim()) ? "Nhập điện thoại cửa hàng" : "";
 
-        if (!isEmptyInput(userName.value) && userName.isDirty) {
-
+        if (!isEmptyInput(userName.value)) {
+            apiCheckUserName({ userName: userName.value }, (result) => {
+                const { status, isExist } = result.data;
+                userName.message = status & isExist ? "Tài khoản này đã được sử dụng" : ""
+                this.setState({
+                    userName
+                });
+            })
         }
 
-        if (!isEmptyInput(shopPhone.value) && shopPhone.isDirty) {
-
+        if (!isEmptyInput(shopPhone.value)) {
+            shopPhone.message = !validatePhoneNumber(shopPhone.value) ? "Số điện thoại không hợp lệ" : "";
         }
 
-        if (!isEmptyInput(shopEmail.value) && shopEmail.isDirty) {
-
+        if (!isEmptyInput(shopEmail.value)) {
+            shopEmail.message = !validateEmail(shopEmail.value) ? "Email không hợp lệ" : "";
         }
-
+        if (!isEmptyInput(confirmPassword.value)) {
+            confirmPassword.message = confirmPassword.value !== password.value ? "Xác nhận mật khẩu không đúng" : "";
+        }
 
         this.forceUpdate();
+
+
+        return (userName.message.length === 0 && password.message.length === 0 &&
+            confirmPassword.message.length === 0 && shopName.message.length === 0 && shopAddress.message.length === 0
+            && shopEmail.message.length === 0 && shopPhone.message.length === 0);
     }
 
     toRegisterPayload() {
@@ -155,16 +169,24 @@ class Register extends React.Component {
     }
 
     handleSubmit() {
-
-        uploadImage(this.file, (snapshot) => {
-            const { downloadURL, ref } = snapshot;
-            const payload = this.toRegisterPayload();
-            payload.coverPhotoUrl = downloadURL;
-            payload.coverPhotoRef = ref.location.path;
-            const { dispatch } = this.props;
-            dispatch(register(payload));
-        });
-
+        if (this.validateInputs(true)) {
+            if (this.file !== null) {
+                uploadImage(this.file, (snapshot) => {
+                    const { downloadURL, ref } = snapshot;
+                    const payload = this.toRegisterPayload();
+                    payload.coverPhotoUrl = downloadURL;
+                    payload.coverPhotoRef = ref.location.path;
+                    const { dispatch } = this.props;
+                    dispatch(register(payload));
+                });
+            } else {
+                const payload = this.toRegisterPayload();
+                payload.coverPhotoUrl = this.state.coverPhoto;
+                payload.coverPhotoRef = this.state.coverPhotoRef;
+                const { dispatch } = this.props;
+                dispatch(register(payload));
+            }
+        }
     }
 
     render() {
@@ -194,9 +216,9 @@ class Register extends React.Component {
                                 <input type="text" id="userName" name="userName"
                                     className="form-control"
                                     value={userName.value}
-                                    onBlur={this.handleInputOnBlur.bind(this)}
+                                    onBlur={this.validateInputs.bind(this)}
                                     onChange={this.handleInputChange.bind(this)} />
-                                <span className="text-danger">{userName.password}</span>
+                                <span className="text-danger">{userName.message}</span>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Mật khẩu</label>
@@ -204,14 +226,21 @@ class Register extends React.Component {
                                     name="password"
                                     value={password.value}
                                     onChange={this.handleInputChange.bind(this)}
+                                    onBlur={this.validateInputs.bind(this)}
+
                                     className="form-control" />
+                                <span className="text-danger">{password.message}</span>
+
                             </div>
                             <div className="form-group">
                                 <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
                                 <input type="text" id="confirmPassword" name="confirmPassword"
                                     onChange={this.handleInputChange.bind(this)}
+                                    onBlur={this.validateInputs.bind(this)}
                                     value={confirmPassword.value}
                                     className="form-control" />
+                                <span className="text-danger">{confirmPassword.message}</span>
+
                             </div>
 
                         </div>
@@ -222,31 +251,41 @@ class Register extends React.Component {
                                 <input type="text" id="shopName" name="shopName"
                                     value={shopName.value}
                                     onChange={this.handleInputChange.bind(this)}
+                                    onBlur={this.validateInputs.bind(this)}
                                     className="form-control" />
+                                <span className="text-danger">{shopName.message}</span>
+
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="shopAddress">Địa chỉ cửa hàng</label>
                                 <input type="text" id="shopAddress" name="shopAddress"
                                     value={shopAddress.value}
+                                    onBlur={this.validateInputs.bind(this)}
                                     onChange={this.handleInputChange.bind(this)}
                                     className="form-control" />
+                                <span className="text-danger">{shopAddress.message}</span>
+
                             </div>
                             <div className="form-group">
                                 <label htmlFor="shopPhone">Điện thoại cửa hàng</label>
                                 <input type="text" id="shopPhone" name="shopPhone"
                                     value={shopPhone.value}
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.handleInputOnBlur.bind(this)}
+                                    onBlur={this.validateInputs.bind(this)}
                                     className="form-control" />
+                                <span className="text-danger">{shopPhone.message}</span>
+
                             </div>
                             <div className="form-group">
-                                <label htmlFor="userName">Email cửa hàng</label>
+                                <label htmlFor="shopEmail">Email cửa hàng</label>
                                 <input type="text" id="shopEmail" name="shopEmail"
                                     value={shopEmail.value}
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.handleInputOnBlur.bind(this)}
+                                    onBlur={this.validateInputs.bind(this)}
                                     className="form-control" />
+                                <span className="text-danger">{shopEmail.message}</span>
+
                             </div>
                             <div className="form-group">
                                 <label htmlFor="userName">Cung cấp</label>

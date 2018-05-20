@@ -19,8 +19,8 @@ class Login extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { isAuthenticated, router, isSuccess } = nextProps;
-        if (isAuthenticated && !isSuccess) {
+        const { isAuthenticated, router } = nextProps;
+        if (isAuthenticated) {
             router.push("/shop-management");
         }
     }

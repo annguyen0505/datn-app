@@ -76,6 +76,7 @@ export const login = (credential, localStorage) => {
                 dispatch(receiveLoginResponse(true));
                 dispatch(showSuccess("Đăng nhập thành công"));
             } else {
+                dispatch(showError("Tài khoản hoặc mật khẩu không đúng"));
                 dispatch(receiveLoginResponse(false));
             }
         }, (error) => {
