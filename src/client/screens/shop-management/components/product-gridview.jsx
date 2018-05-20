@@ -115,7 +115,10 @@ class ProductGridView extends React.Component {
                         onActionClick={this.handleGridViewActionClick.bind(this)} //Handle actions
                     />
                 </div>
-                <ProductAddingModal shopId={this.props.shopId} isOpenAddModal={this.state.isOpenAddModal} handleToggleModal={this.handleToggleAddModal.bind(this)} />
+                {this.state.isOpenAddModal ? <ProductAddingModal shopId={this.props.shopId}
+                    isOpenAddModal={this.state.isOpenAddModal}
+                    handleToggleModal={this.handleToggleAddModal.bind(this)} /> : null}
+                    
                 <DeleteProductModal
                     isOpenDeleteModal={this.state.isOpenDeleteModal}
                     handleToggleModal={this.handleToggleDeleteModal.bind(this)}

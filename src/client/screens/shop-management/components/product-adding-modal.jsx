@@ -39,6 +39,10 @@ class ProductAddingModal extends React.Component {
         dispatch(getShopCategories(shopId));
     }
 
+    componentWillUnmount() {
+        console.log("call");
+    }
+
     handlecategorySelected(value) {
         this.setState({
             category: value
@@ -48,7 +52,7 @@ class ProductAddingModal extends React.Component {
     }
 
     validateCategory() {
-        const {category} = this.state;
+        const { category } = this.state;
         const categoryMessage = isEmptyInput(category.value) ? "Chọn loại mặt hàng" : "";
         this.setState({
             categoryMessage
@@ -57,6 +61,10 @@ class ProductAddingModal extends React.Component {
     }
 
     resetModal() {
+        while (this.files.length > 0) {
+            this.files.pop();
+        }
+
         this.setState({
             ...this.defaultState
         });
@@ -161,7 +169,7 @@ class ProductAddingModal extends React.Component {
     handleToggleModal() {
         const { handleToggleModal } = this.props;
 
-        Promise.all(this.storageRefs.map((ref)=>{
+        Promise.all(this.storageRefs.map((ref) => {
             deleteImage(ref);
         })).then(() => {
             console.log("delete success");
@@ -213,15 +221,15 @@ class ProductAddingModal extends React.Component {
                 return (
                     <div key={index} className="col-xs-3">
                         <div>
-                        <img src={image} 
-                       className="img-thumbnail center-block"
-                       style={{ width: "inherit", height: "150px" }}
-                        />
+                            <img src={image}
+                                className="img-thumbnail center-block"
+                                style={{ width: "inherit", height: "150px" }}
+                            />
                         </div>
                         <br />
                         <div className="row">
-                        <button onClick={() => { this.handleRemoveImage(index); }}
-                        className="btn btn-default center-block">Xóa</button>
+                            <button onClick={() => { this.handleRemoveImage(index); }}
+                                className="btn btn-default center-block">Xóa</button>
                         </div>
                     </div>
                 );
@@ -252,22 +260,21 @@ class ProductAddingModal extends React.Component {
                                 </div>
                                 <div className="col-xs-6">
                                     <label htmlFor="productName" >Giá (VNĐ)</label>
-                                    <input id="price" type="number
-                                    " name="price" value={price}
-                                    onChange={(e) => { this.handleInputOnChange(e); }}
-                                    onBlur={(e) => {this.validatePrice(e);}}
-                                    className="form-control" />
-                                <span className="text-danger">{this.state.priceMessage}</span>
+                                    <input id="price" type="number" name="price" value={price}
+                                        onChange={(e) => { this.handleInputOnChange(e); }}
+                                        onBlur={(e) => { this.validatePrice(e); }}
+                                        className="form-control" />
+                                    <span className="text-danger">{this.state.priceMessage}</span>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-xs-6">
                                     <label htmlFor="shopOrShopKeeper">Loại sản phẩm</label>
                                     <SimpleSelect options={categoryOptions}
-                                     theme="bootstrap3"
-                                     value={category}
-                                     defaultValue={categoryOptions[0]}
-                                     onValueChange={this.handlecategorySelected.bind(this)} />
+                                        theme="bootstrap3"
+                                        value={category}
+                                        defaultValue={categoryOptions[0]}
+                                        onValueChange={this.handlecategorySelected.bind(this)} />
                                     <span className="text-danger">{this.state.categoryMessage}</span>
                                 </div>
                             </div>

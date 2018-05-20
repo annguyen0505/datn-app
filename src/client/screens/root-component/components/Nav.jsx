@@ -5,7 +5,8 @@ import { getAccessToken } from "./../../../helpers/cookie-helper";
 import { getLocalUserProfile } from "./../../../helpers/jwt-helper";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-
+import { removeAccessToken } from "./../../../helpers/cookie-helper";
+import { removeUserProfile } from "./../../authencation/actions/index";
 
 class Nav extends React.Component {
 
@@ -22,6 +23,12 @@ class Nav extends React.Component {
     navidateTo(path) {
         const { router } = this.props;
         router.push(path);
+    }
+
+    handleLogout() {
+        localStorage.removeItem("accessToken");
+        this.props.dispatch(removeUserProfile());
+        this.navidateTo("/");
     }
 
     render() {
@@ -44,18 +51,22 @@ class Nav extends React.Component {
                             <li><Link to="/">Trang chủ</Link></li>
                             {isAuthenticated ?
                                 <li onClick={(e) => { this.navidateTo("/shop-management", e); }}>
-                                    {/* <Link to="/shop-management">Quản lý cửa hàng</Link> */}
-                                    <a>Quản lý cửa hàng</a>
+                                    <Link to="/shop-management">Quản lý cửa hàng</Link>
                                 </li> : null
                             }
-                            <li onClick={(e) => { this.navidateTo("/cart", e); }}>  <a>Giỏ hàng</a></li>
+                            <li><Link to="/cart">Giỏ hàng</Link></li>
                         </ul>
                         {isAuthenticated ? <ul className="nav navbar-nav navbar-right">
                             <li><a href="#"><span className="glyphicon glyphicon-user" /> {this.profile.userName}</a></li>
-                            <li><a href="#"><span className="glyphicon glyphicon-log-in" /> Đăng xuất </a></li>
+                            <li onClick={(e) => { this.handleLogout(e); }}><a href="#"><span className="glyphicon glyphicon-log-in" /> Đăng xuất </a></li>
                         </ul> : <ul className="nav navbar-nav navbar-right">
-                                <li><a href="#"><span className="glyphicon glyphicon-user" /> Đăng ký</a></li>
-                                <li><a href="#"><span className="glyphicon glyphicon-log-in" /> Đăng nhập</a></li>
+                                <li><a href="#">
+                                    <span className="glyphicon glyphicon-user" />
+                                    <Link to="/register"> Đăng ký</Link></a></li>
+                                <li><a href="#">
+                                    <span className="glyphicon glyphicon-log-in" />
+                                    <Link to="/login"> Đăng nhập</Link>
+                                </a></li>
                             </ul>}
                     </div>
                 </div>

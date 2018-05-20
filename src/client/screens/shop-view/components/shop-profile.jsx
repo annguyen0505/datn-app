@@ -14,6 +14,7 @@ class ShopProfile extends React.Component {
 
     render() {
         const { shop } = this.props;
+        const { categories, businessLocations } = shop;
         return (
             <div className="row" style={{ marginBottom: "1rem", backgroundColor: "#f0f8ff" }}>
                 <div className="col-sm-4" style={{ marginBottom: "1rem" }}>
@@ -36,8 +37,8 @@ class ShopProfile extends React.Component {
                                         <td><h4>Ngày mở: {shop.dateOpen}</h4></td>
                                     </tr>
                                     <tr>
-                                        <td><h4>Cung cấp: {shop.categories}</h4></td>
-                                        <td><h4>Khu vực giao dịch: {shop.businessLocations}</h4></td>
+                                        <td><h4>Email: {shop.shopEmail}</h4></td>
+                                        <td><h4>Số điện thoại: {shop.shopPhone}</h4></td>
                                     </tr>
                                     <tr>
                                         <td colSpan="2"><h4>Mô tả: {shop.description}</h4></td>
@@ -63,7 +64,8 @@ ShopProfile.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    const { shopViewReducer } = state;
+    const { shopViewReducer, homeReducer
+    } = state;
     const { shop } = shopViewReducer;
     return {
         shop

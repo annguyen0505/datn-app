@@ -24,7 +24,7 @@ class MasterPage extends Component {
 
         return (
             <div>
-                <Nav isAuthenticated={isAuthenticated} router={this.props.router} />
+                <Nav isAuthenticated={isAuthenticated} router={this.props.router} dispatch={this.props.dispatch.bind(this)} />
                 <Notification notification={notificationReducers} />
                 <div>
                     {this.props.children}

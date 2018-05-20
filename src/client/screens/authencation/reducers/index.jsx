@@ -20,7 +20,8 @@ const authenticationReducer = (state = defaultState, action) => {
 
         case REMOVE_USER_PROFILE: return {
             ...state,
-            profile: null
+            profile: null,
+            isAuthenticated: false
         };
         case REQUEST_LOGIN: return {
             ...state,

@@ -86,7 +86,7 @@ class Register extends React.Component {
     }
     handleProvincesChange(values) {
         this.setState({
-            selectedCategories: values
+            selectedProvinces: values
         });
     }
 
@@ -108,8 +108,9 @@ class Register extends React.Component {
     handleInputOnBlur(e) {
         e.preventDefault();
         const {
-            userName, password, confirmPassword
-            , shopName, shopAddress, shopEmail, shopPhone } = this.state;
+            userName, password, confirmPassword,
+            shopName, shopAddress, shopEmail, shopPhone } = this.state;
+
         userName.message = userName.isDirty && isEmptyInput(userName.value.trim()) ? "Nhập tên tài khoản" : "";
         password.message = password.isDirty && isEmptyInput(password.value.trim()) ? "Nhập tên mật khẩu" : "";
         confirmPassword.message = confirmPassword.isDirty && isEmptyInput(confirmPassword.value.trim()) ? "Xác thực mật khẩu" : "";
@@ -125,9 +126,11 @@ class Register extends React.Component {
         if (!isEmptyInput(shopPhone.value) && shopPhone.isDirty) {
 
         }
+
         if (!isEmptyInput(shopEmail.value) && shopEmail.isDirty) {
 
         }
+
 
         this.forceUpdate();
     }
@@ -193,6 +196,7 @@ class Register extends React.Component {
                                     value={userName.value}
                                     onBlur={this.handleInputOnBlur.bind(this)}
                                     onChange={this.handleInputChange.bind(this)} />
+                                <span className="text-danger">{userName.password}</span>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Mật khẩu</label>

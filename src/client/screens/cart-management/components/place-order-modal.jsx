@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { placeOrder } from "./../action";
+import { isEmptyInput, validateEmail, validatePhoneNumber } from "./../../../helpers/validation-helper";
+
 const Modal = require("react-bootstrap-modal");
 
 const { Header, Body, Footer } = Modal;
@@ -32,24 +34,53 @@ class PlaceOrderModal extends React.Component {
 
         this.setState({
             [property]: {
-                value
+                value,
+                isDirty: true
             }
         });
 
     }
 
-    handlePlaceOrder() {
-        const { dispatch, cart } = this.props;
-        const { customerName, customerAddress, customerPhone, customerEmail } = this.state;
-        const payload = {
-            customerName: customerName.value,
-            customerAddress: customerAddress.value,
-            customerPhone: customerPhone.value,
-            customerEmail: customerEmail.value,
-            cart
-        };
+    /*eslint-disable */
 
-        dispatch(placeOrder(payload));
+    validateInputs(isSubmit = false) {
+        const { customerName, customerEmail, customerAddress, customerPhone } = this.state;
+
+        customerName.message = (customerName.isDirty || isSubmit) && isEmptyInput(customerName.value) ? "Nhập họ và tên" : "";
+        customerEmail.message = (customerEmail.isDirty || isSubmit) && isEmptyInput(customerEmail.value)  ? "Nhập email" : "";
+        customerAddress.message = (customerAddress.isDirty || isSubmit) && isEmptyInput(customerAddress.value) ? "Nhập địa chỉ" : "";
+        customerPhone.message = (customerPhone.isDirty || isSubmit) && isEmptyInput(customerPhone.value) ? "Nhập số điện thoại" : "";
+
+        if(!isEmptyInput(customerEmail.value)){
+            customerEmail.message= !validateEmail(customerEmail.value)?"Email không hợp lệ":"";
+        }
+        if(!isEmptyInput(customerPhone.value)){
+            customerPhone.message= !validatePhoneNumber(customerPhone.value)?"Số điện thoại không hợp lệ":"";
+        }
+
+        this.setState({
+            customerName,
+            customerAddress,
+            customerEmail,
+            customerPhone
+        });
+        return customerName.message.length === 0 && customerEmail.message.length === 0 && customerAddress.message.length === 0 && customerPhone.message.length === 0;
+    }
+    /*eslint-enable */
+    handlePlaceOrder() {
+        if (this.validateInputs(true)) {
+            const { dispatch, cart } = this.props;
+            const { customerName, customerAddress, customerPhone, customerEmail } = this.state;
+            const payload = {
+                customerName: customerName.value,
+                customerAddress: customerAddress.value,
+                customerPhone: customerPhone.value,
+                customerEmail: customerEmail.value,
+                cart
+            };
+
+            dispatch(placeOrder(payload));
+        }
     }
 
     handleClodeModal() {
@@ -79,38 +110,42 @@ class PlaceOrderModal extends React.Component {
                                     name="customerName"
                                     className="form-control"
                                     onChange={(e) => { this.handleInputChange(e); }}
+                                    onBlur={(e => { this.validateInputs(); })}
                                     value={customerName.value}
                                 />
-                                <span className="text-danger"></span>
+                                <span className="text-danger">{customerName.message}</span>
                             </div>
                             <div className="col-xs-12">
                                 <label htmlFor="customerAddress" >Địa chỉ</label>
                                 <input id="customerAddress"
                                     onChange={(e) => { this.handleInputChange(e); }}
+                                    onBlur={(e => { this.validateInputs(); })}
 
                                     name="customerAddress"
                                     value={customerAddress.value}
                                     className="form-control" />
-                                <span className="text-danger"></span>
+                                <span className="text-danger">{customerAddress.message}</span>
                             </div>
                             <div className="col-xs-12">
                                 <label htmlFor="customerPhone" >Số điện thoại</label>
                                 <input id="customerPhone"
                                     name="customerPhone"
                                     onChange={(e) => { this.handleInputChange(e); }}
+                                    onBlur={(e => { this.validateInputs(); })}
 
                                     value={customerPhone.value}
                                     className="form-control" />
-                                <span className="text-danger"></span>
+                                <span className="text-danger">{customerPhone.message}</span>
                             </div>
                             <div className="col-xs-12">
                                 <label htmlFor="customerEmail" >Email</label>
                                 <input id="customerEmail"
                                     name="customerEmail"
+                                    onBlur={(e => { this.validateInputs(); })}
                                     onChange={(e) => { this.handleInputChange(e); }}
                                     value={customerEmail.value}
                                     className="form-control" />
-                                <span className="text-danger"></span>
+                                <span className="text-danger">{customerEmail.message}</span>
                             </div>
                         </div>
 

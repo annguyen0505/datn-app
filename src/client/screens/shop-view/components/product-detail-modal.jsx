@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toVNDformat } from "./../../../helpers/common-helper";
 import { apiGetProductDetail } from "./../../../apis/shops-management";
-import { Slide } from 'react-slideshow-image';
 
 const Modal = require("react-bootstrap-modal");
 

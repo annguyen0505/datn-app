@@ -53,9 +53,17 @@ class CartManagement extends React.Component {
         const value = e.target.value;
         updateCartItem({
             productId: carts[cartIndex].products[productIndex].productId,
-            quantity: parseInt(value) || 0
+            quantity: parseInt(value) || 1
         });
         carts[cartIndex].products[productIndex].quantity = parseInt(value) || 0;
+        this.setState({ carts });
+    }
+
+    handleQuantityBlur(cartIndex, productIndex, e) {
+        const { carts } = this.state;
+        if (carts[cartIndex].products[productIndex].quantity === 0) {
+            carts[cartIndex].products[productIndex].quantity = 1;
+        }
         this.setState({ carts });
     }
 
@@ -171,6 +179,8 @@ class CartManagement extends React.Component {
                                         onKeyDown={(e) => {
                                             this.handleQuantityKeyDown(e);
                                         }}
+
+                                        onBlur={e => { this.handleQuantityBlur(cartIndex, pdtIndex, e); }}
                                         style={{ width: "40px" }}
                                         value={quantity}
                                     />
