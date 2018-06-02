@@ -49,6 +49,11 @@ class ProductFilter extends React.Component {
         dispatch(searchProducts(newCriteria));
     }
 
+    handleBtnResetClick() {
+        const { dispatch } = this.props;
+        dispatch(searchProducts({ ...this.defaultState }));
+    }
+
     render() {
         const { categories } = this.props;
         const { atPrice, productName, category, priceDirection } = this.state;
@@ -101,7 +106,10 @@ class ProductFilter extends React.Component {
                             <button type="button" className="col-md-12 btn btn-success" onClick={(e) => { this.handleBtnSearchClick(e); }}>Tìm kiếm</button>
                         </div>
                         <div className="col-md-6">
-                            <button type="button" className=" col-md-12 btn btn-default col-md-12">Trở về</button>
+                            <button type="button"
+                                className=" col-md-12 btn btn-default col-md-12"
+                                onClick={(e) => { this.handleBtnResetClick(e); }}
+                            >Trở về</button>
                         </div>
                     </div>
                 </div>

@@ -74,7 +74,7 @@ class ProductDetailModal extends React.Component {
                         {
                             width: "60%%",
                             margin: "auto",
-                            maxHeight: "450px"
+                            height: "450px"
                         }
                     } alt="900x500" src={image.imgUrl} />
                     <Caption>

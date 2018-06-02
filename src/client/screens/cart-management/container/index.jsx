@@ -132,6 +132,21 @@ class CartManagement extends React.Component {
 
     }
 
+    handleRemoveCart(cartIndex, e) {
+        const { carts } = this.state;
+        const cart = carts[cartIndex];
+        cart.products.forEach((pdt) => {
+            removeItem(pdt.productId);
+        });
+
+        const newCarts = carts.filter((cartRef) => {
+            return cartRef.shopId !== cart.shopId;
+        });
+        this.setState({
+            carts: newCarts
+        });
+    }
+
     handlePlaceOrder(cartIndex, e) {
         const { carts } = this.state;
         this.selectedCart = carts[cartIndex];
@@ -234,7 +249,9 @@ class CartManagement extends React.Component {
                                     style={{ width: "100px", marginRight: "5px" }}
                                     onClick={(e) => { this.handlePlaceOrder(cartIndex, e); }}
                                     className="btn btn-success">Đặt hàng</a>
-                                <a href="#" style={{ width: "100px" }} className="btn btn-default">Hủy bỏ</a>
+                                <a href="#" style={{ width: "100px" }}
+                                    onClick={(e) => { this.handleRemoveCart(cartIndex, e); }}
+                                    className="btn btn-default">Hủy bỏ</a>
                             </div>
                         </div>
                     </div>
