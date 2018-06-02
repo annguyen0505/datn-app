@@ -3,10 +3,17 @@ import { apiRegister } from "./../../../apis/authentication-api";
 import { showSuccess, showError } from "./../../root-component/actions/notification";
 export const REQUEST_REGISTER = "REQUEST_REGISTER";
 export const RECEIVE_REGISTER_RESPONSE = "RECEIVE_REGISTER_RESPONSE";
+export const RESET_REGISTER_STORE = "RESET_REGISTER_STORE";
 
 export const requestRegister = () => {
     return {
         type: REQUEST_REGISTER
+    };
+};
+
+export const resetRegisterStore = () => {
+    return {
+        type: RESET_REGISTER_STORE
     };
 };
 

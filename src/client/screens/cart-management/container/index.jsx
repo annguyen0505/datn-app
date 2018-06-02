@@ -5,6 +5,8 @@ import { getProducts, increaseCartItem, decreaseCartItem, updateCartItem, remove
 import { apiGetCartInfo } from "./../../../apis/cart-management";
 import { toVNDformat } from "./../../../helpers/common-helper";
 import PlaceOrderModal from "./../components/place-order-modal";
+import { resetCart } from "./../action/index";
+import $ from "jquery";
 
 class CartManagement extends React.Component {
     constructor(props) {
@@ -46,6 +48,11 @@ class CartManagement extends React.Component {
             this.selectedCart = null;
 
         }
+    }
+
+    componentWillUnmount() {
+        this.selectedCart = null;
+        this.props.dispatch(resetCart());
     }
 
     handleQuantityChange(cartIndex, productIndex, e) {
@@ -97,6 +104,7 @@ class CartManagement extends React.Component {
             carts
         });
     }
+
     handleRemoveCartItem(cartIndex, pdtIndex, productId) {
         removeItem(productId);
         const { carts } = this.state;
@@ -128,9 +136,6 @@ class CartManagement extends React.Component {
         const { carts } = this.state;
         this.selectedCart = carts[cartIndex];
         this.handleToggleModal();
-        // const payload = {
-        //     cart: carts[cartIndex]
-        // };
     }
 
     getOrderTotalCost(cartIndex) {
@@ -200,7 +205,7 @@ class CartManagement extends React.Component {
                 };
 
                 return (
-                    <div key={cartIndex}>
+                    <div key={cartIndex} id={`cart-${cartIndex}`}>
                         <div className="col-xs-12">
                             <h3 className="title" style={{ marginBottom: ".5em" }}>{cart.shopName.toUpperCase()}</h3>
                         </div>

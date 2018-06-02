@@ -159,8 +159,8 @@ class Home extends React.Component {
                                 <div className="col-xs-6" style={{ height: "200px" }}>
                                     <div className="caption">
                                         <h3>Cửa hàng: {shop.shopName}</h3>
-                                        <p><b>Cung cấp:</b> {shop.categories}</p>
-                                        <p><b>Khu vực kinh doanh:</b> {shop.businessLocations}</p>
+                                        <p><b>Cung cấp:</b> {shop.categories || "Tất cả"}</p>
+                                        <p><b>Khu vực kinh doanh:</b> {shop.businessLocations || "Toàn quốc"}</p>
                                         <button onClick={(e) => { this.navidateTo(toPath); }}
                                             className="btn btn-success btn-sm" style={{ position: "absolute", bottom: "0", width: "40%", backgroundColor: "#28d6285c" }}>
                                             <a to={`shops/${shop.shopId}`} style={{ color: "white" }}>Xem</a>
@@ -230,6 +230,14 @@ class Home extends React.Component {
                 <div className="row">
                     {rendershops()}
                 </div>
+                <div id="loader">
+                    {this.props.isFetching ?
+                        <button className="btn btn-lg btn-warning center-block">
+                            <span className="glyphicon glyphicon-refresh glyphicon-refresh-animate" />
+                            Loading...
+                        </button> : null
+                    }
+                </div>
             </div >
 
         );
@@ -249,7 +257,7 @@ Home.propTypes = {
 const mapStateToProps = (state) => {
     const { homeReducer } = state;
     const { shops, totalRecords, criteria, categories, provinces, needReload,
-        hasMoreItems } = homeReducer;
+        hasMoreItems, isFetching } = homeReducer;
     return {
         shops,
         totalRecords,
@@ -257,7 +265,8 @@ const mapStateToProps = (state) => {
         categories,
         provinces,
         needReload,
-        hasMoreItems
+        hasMoreItems,
+        isFetching
     };
 };
 

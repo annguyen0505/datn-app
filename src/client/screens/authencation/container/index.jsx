@@ -2,7 +2,7 @@ import React from "React";
 import { login } from "./../actions";
 import { connect } from "react-redux";
 import { isEmptyInput, requiedMessage } from "./../../../helpers/validation-helper";
-
+import { socket } from "./../../../socket/socket";
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -19,8 +19,9 @@ class Login extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { isAuthenticated, router } = nextProps;
+        const { isAuthenticated, router, profile } = nextProps;
         if (isAuthenticated) {
+            socket.emit("login", profile.shopId);
             router.push("/shop-management");
         }
     }
@@ -63,7 +64,6 @@ class Login extends React.Component {
     }
 
     handleBtnLoginClick(e) {
-
         e.preventDefault();
         this.formDirty = true;
         if (this.validateForm()) {

@@ -17,6 +17,9 @@ const cartManagementReducer = (state = defaultState, action) => {
             isSuccess: action.isSuccess,
             isFetching: false
         };
+        case actions.RESET_CART: return {
+            ...defaultState
+        };
         default: return { ...state };
     }
 };

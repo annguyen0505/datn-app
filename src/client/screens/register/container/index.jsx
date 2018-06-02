@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { MultiSelect } from "react-selectize";
-import { getInitialState, register } from "./../actions/index";
+import { getInitialState, register, requestRegister } from "./../actions/index";
 import { uploadImage } from "./../../../helpers/firebase-helper";
 import { isEmptyInput, validateEmail, validatePhoneNumber } from "./../../../helpers/validation-helper";
 import { apiCheckUserName } from "./../../../apis/authentication-api";
@@ -51,7 +51,8 @@ class Register extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { isSuccess, router } = nextProps;
+        const { isSuccess, router, isFetching } = nextProps;
+        console.log(nextProps);
         if (isSuccess) {
             router.push("/login");
             this.state = { ...this.defaultState };
@@ -107,18 +108,21 @@ class Register extends React.Component {
     /*eslint-disable */
 
     validateInputs(isSumit = false) {
-
         const {
             userName, password, confirmPassword,
             shopName, shopAddress, shopEmail, shopPhone } = this.state;
+        if (isSumit) {
+            userName.isDirty = true; password.isDirty = true; confirmPassword.isDirty = true;
+            shopName.isDirty = true; shopAddress.isDirty = true; shopEmail.isDirty = true; shopPhone.isDirty = true
+        }
 
-        userName.message = (userName.isDirty || isSumit) && isEmptyInput(userName.value.trim()) ? "Nhập tên tài khoản" : "";
-        password.message = (password.isDirty || isSumit) && isEmptyInput(password.value.trim()) ? "Nhập tên mật khẩu" : "";
-        confirmPassword.message = (confirmPassword.isDirty || isSumit) && isEmptyInput(confirmPassword.value.trim()) ? "Xác thực mật khẩu" : "";
-        shopName.message = (shopName.isDirty || isSumit) && isEmptyInput(shopName.value.trim()) ? "Nhập tên cửa hàng" : "";
-        shopAddress.message = (shopAddress.isDirty || isSumit) && isEmptyInput(shopAddress.value.trim()) ? "Nhập địa chỉ cửa hàng" : "";
-        shopEmail.message = (shopEmail.isDirty || isSumit) && isEmptyInput(shopEmail.value.trim()) ? "Nhập Email cửa hàng" : "";
-        shopPhone.message = (shopPhone.isDirty || isSumit) && isEmptyInput(shopPhone.value.trim()) ? "Nhập điện thoại cửa hàng" : "";
+        userName.message = (userName.isDirty) && isEmptyInput(userName.value.trim()) ? "Nhập tên tài khoản" : "";
+        password.message = (password.isDirty) && isEmptyInput(password.value.trim()) ? "Nhập tên mật khẩu" : "";
+        confirmPassword.message = (confirmPassword.isDirty) && isEmptyInput(confirmPassword.value.trim()) ? "Xác thực mật khẩu" : "";
+        shopName.message = (shopName.isDirty) && isEmptyInput(shopName.value.trim()) ? "Nhập tên cửa hàng" : "";
+        shopAddress.message = (shopAddress.isDirty) && isEmptyInput(shopAddress.value.trim()) ? "Nhập địa chỉ cửa hàng" : "";
+        shopEmail.message = (shopEmail.isDirty) && isEmptyInput(shopEmail.value.trim()) ? "Nhập Email cửa hàng" : "";
+        shopPhone.message = (shopPhone.isDirty) && isEmptyInput(shopPhone.value.trim()) ? "Nhập điện thoại cửa hàng" : "";
 
         if (!isEmptyInput(userName.value)) {
             apiCheckUserName({ userName: userName.value }, (result) => {
@@ -148,6 +152,7 @@ class Register extends React.Component {
             confirmPassword.message.length === 0 && shopName.message.length === 0 && shopAddress.message.length === 0
             && shopEmail.message.length === 0 && shopPhone.message.length === 0);
     }
+    /*eslint-enable */
 
     toRegisterPayload() {
         const { coverPhoto, selectedCategories,
@@ -171,12 +176,13 @@ class Register extends React.Component {
     handleSubmit() {
         if (this.validateInputs(true)) {
             if (this.file !== null) {
+                const { dispatch } = this.props;
+                dispatch(requestRegister());
                 uploadImage(this.file, (snapshot) => {
                     const { downloadURL, ref } = snapshot;
                     const payload = this.toRegisterPayload();
                     payload.coverPhotoUrl = downloadURL;
                     payload.coverPhotoRef = ref.location.path;
-                    const { dispatch } = this.props;
                     dispatch(register(payload));
                 });
             } else {
@@ -193,10 +199,23 @@ class Register extends React.Component {
         const { coverPhoto, selectedCategories,
             selectedProvinces, userName, password, confirmPassword
             , shopName, shopAddress, shopEmail, shopPhone, description } = this.state;
-        const { categoryOptions, provinceOptions } = this.props;
+        const { categoryOptions, provinceOptions, isFetching } = this.props;
 
         return (
             <div className="col-xs-12">
+                {isFetching ?
+                    <div className="col-xs-12">
+                        <div className="col-xs-4" />
+
+                        <div className="col-xs-4">
+                            <button className="btn btn-lg btn-warning center-block">
+                                <span className="glyphicon glyphicon-refresh glyphicon-refresh-animate" />
+                                Loading...
+                            </button>
+                        </div>
+                    </div>
+                    : null}
+                <br />
                 <div className="col-xs-12 col-md-4">
                     <img
                         src={coverPhoto}
@@ -216,7 +235,7 @@ class Register extends React.Component {
                                 <input type="text" id="userName" name="userName"
                                     className="form-control"
                                     value={userName.value}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
                                     onChange={this.handleInputChange.bind(this)} />
                                 <span className="text-danger">{userName.message}</span>
                             </div>
@@ -226,7 +245,7 @@ class Register extends React.Component {
                                     name="password"
                                     value={password.value}
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
 
                                     className="form-control" />
                                 <span className="text-danger">{password.message}</span>
@@ -234,9 +253,9 @@ class Register extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
-                                <input type="text" id="confirmPassword" name="confirmPassword"
+                                <input type="password" id="confirmPassword" name="confirmPassword"
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
                                     value={confirmPassword.value}
                                     className="form-control" />
                                 <span className="text-danger">{confirmPassword.message}</span>
@@ -251,7 +270,7 @@ class Register extends React.Component {
                                 <input type="text" id="shopName" name="shopName"
                                     value={shopName.value}
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
                                     className="form-control" />
                                 <span className="text-danger">{shopName.message}</span>
 
@@ -261,7 +280,7 @@ class Register extends React.Component {
                                 <label htmlFor="shopAddress">Địa chỉ cửa hàng</label>
                                 <input type="text" id="shopAddress" name="shopAddress"
                                     value={shopAddress.value}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
                                     onChange={this.handleInputChange.bind(this)}
                                     className="form-control" />
                                 <span className="text-danger">{shopAddress.message}</span>
@@ -272,7 +291,7 @@ class Register extends React.Component {
                                 <input type="text" id="shopPhone" name="shopPhone"
                                     value={shopPhone.value}
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
                                     className="form-control" />
                                 <span className="text-danger">{shopPhone.message}</span>
 
@@ -282,7 +301,7 @@ class Register extends React.Component {
                                 <input type="text" id="shopEmail" name="shopEmail"
                                     value={shopEmail.value}
                                     onChange={this.handleInputChange.bind(this)}
-                                    onBlur={this.validateInputs.bind(this)}
+                                    onBlur={(e) => { this.validateInputs(false); }}
                                     className="form-control" />
                                 <span className="text-danger">{shopEmail.message}</span>
 
@@ -339,7 +358,7 @@ Register.propTypes = {
 const mapStateToProps = (state) => {
     const { homeReducer, registerReducer } = state;
     const { categories, provinces } = homeReducer;
-    const { isSuccess } = registerReducer;
+    const { isSuccess, isFetching } = registerReducer;
     const categoryOptions = [];
 
     const provinceOptions = [];
@@ -359,7 +378,8 @@ const mapStateToProps = (state) => {
     return {
         categoryOptions,
         provinceOptions,
-        isSuccess
+        isSuccess,
+        isFetching
     };
 };
 

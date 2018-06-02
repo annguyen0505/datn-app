@@ -1,9 +1,13 @@
-import { apiGetShopView, apiGetShopCategories, apiGetShopProducts } from "./../../../apis/shops-management";
+import { apiGetShopView, apiGetShopCategories, apiGetShopProducts, apiGetShopProvinces } from "./../../../apis/shops-management";
 
 export const REQUEST_FOR_SHOPVIEW = "REQUEST_FOR_SHOPVIEW";
 export const RECEIVE_SHOPVIEW = "RECEIVE_SHOPVIEW";
 export const REQUEST_FOR_SHOPCATEGORIES = "REQUEST_FOR_SHOPCATEGORIES";
 export const RECEIVE_SHOP_CATEGORIES = "RECEIVE_SHOP_CATEGORIES";
+
+export const REQUEST_FOR_SHOPPROVINCES = "REQUEST_FOR_SHOPPROVINCES";
+export const RECEIVE_SHOP_SHOPPROVINCES = "RECEIVE_SHOP_SHOPPROVINCES";
+
 export const REQUEST_FOR_SHOP_PRODUCTS = "REQUEST_FOR_SHOP_PRODUCTS";
 export const RECEIVE_SHOP_PRODUCTS = "RECEIVE_SHOP_PRODUCTS";
 export const SEARCH_SHOP_PRODUCTS = "SEARCH_SHOP_PRODUCTS";
@@ -41,6 +45,20 @@ export const receiveShopCategories = (categories) => {
     return {
         type: RECEIVE_SHOP_CATEGORIES,
         categories
+    };
+};
+
+export const requestForShopProvinces = () => {
+    return {
+        type: REQUEST_FOR_SHOPPROVINCES
+    };
+
+};
+
+export const receiveShopprovinces = (shopProvinces) => {
+    return {
+        type: RECEIVE_SHOP_SHOPPROVINCES,
+        shopProvinces
     };
 };
 
@@ -96,6 +114,21 @@ export const getShopCategories = (shopId) => {
             });
     };
 };
+
+export const getShopProvinces = (shopId) => {
+    return (dispatch) => {
+        dispatch(requestForShopProvinces());
+        return apiGetShopProvinces({ shopId },
+            (result) => {
+                const { shopProvinces } = result.data;
+                dispatch(receiveShopprovinces(shopProvinces));
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
+};
+
 
 export const getShopProducts = (criteria) => {
     return (dispatch) => {

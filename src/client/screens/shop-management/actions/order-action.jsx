@@ -1,5 +1,6 @@
 import { showSuccess, showError } from "./../../root-component/actions/notification";
 import { apiGetOrders, apiChangeConfirmation, apiDeleteOrder } from "./../../../apis/order-management-api";
+import { apiGetNewOrderCount } from "./../../../apis/order-management-api";
 
 export const REQUEST_FOR_ORDERS = "REQUEST_FOR_ORDERS";
 export const RECEIVE_ORDERS = "RECEIVE_ORDERS";
@@ -7,6 +8,8 @@ export const REQUEST_DELETE_ORDER = "REQUEST_DELETE_ORDER";
 export const RECEIVE_DELETE_RESPONSE = "RECEIVE_DELETE_RESPONSE";
 export const REQUEST_CHANGE_CONFIRMATION = "REQUEST_CHANGE_CONFIRMATION";
 export const RECEIVE_CHANGE_RESPONSE = "RECEIVE_CHANGE_RESPONSE";
+export const REQUEST_GET_NEW_ORDERS = "REQUEST_GET_NEW_ORDERS";
+export const RECEIVE_NEW_ORDERS_COUNT = "RECEIVE_NEW_ORDERS_COUNT";
 
 export const requestOrders = (criteria) => {
     return {
@@ -94,5 +97,30 @@ export const deleteOrder = (orderId) => {
         }, (err) => {
             dispatch(showError(err.toString()));
         });
+    };
+};
+
+
+export const requestGetNewOrders = () => {
+    return {
+        type: REQUEST_GET_NEW_ORDERS
+    };
+};
+
+
+export const receiveNewOrderCount = (newOrders) => {
+    return {
+        type: RECEIVE_NEW_ORDERS_COUNT,
+        newOrders
+    };
+};
+
+export const getNewOrders = (shopId) => {
+    return (dispatch) => {
+        dispatch(requestGetNewOrders());
+        return apiGetNewOrderCount({ shopId },
+            (rs) => {
+                dispatch(receiveNewOrderCount(rs.data.count));
+            });
     };
 };

@@ -119,11 +119,11 @@ ProductFilter.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    const { shopViewReducer } = state;
-    const { criteria, categories } = shopViewReducer;
+    const { shopViewReducer, homeReducer } = state;
+    const { criteria } = shopViewReducer;
     return {
         criteria,
-        categories
+        categories: shopViewReducer.categories.length > 0 ? shopViewReducer.categories : homeReducer.categories
     };
 };
 

@@ -21,14 +21,12 @@ class ProductList extends React.Component {
 
     componentDidMount() {
         const { dispatch, criteria } = this.props;
-        console.log(criteria);
         dispatch(getShopProducts(criteria));
         window.addEventListener("scroll", this.handleScroll.bind(this));
     }
 
     componentWillUnmount() {
         const { dispatch } = this.props;
-        console.log("unmout");
         dispatch(resetShopView());
         window.removeEventListener("scroll", this.handleScroll.bind(this));
     }
@@ -71,8 +69,6 @@ class ProductList extends React.Component {
             removeAllCarts();
 
         }
-
-        console.log(getProducts());
     }
 
     handleLoadMore(page) {
@@ -169,21 +165,9 @@ class ProductList extends React.Component {
             });
         }
 
-        return (<div >
-            {/* <InfiniteScroll
-                pageStart={0}
-                loadMore={this.handleLoadMore.bind(this)}
-                hasMore={this.props.hasMoreItems}
-                ref="scroller"
-                useWindow={true}
-            >
-                <div className="col-xs-12">
-                    {items}
-                </div>
-            </InfiniteScroll> */}
-            <div className="col-xs-12">
+        return (<div className="col-xs-12">
                 {items}
-            </div>
+         
             {this.state.isOpenDetailModal ? <ProductDetailModal
                 productId={this.selectedProduct}
                 isOpenDetailModal={this.state.isOpenDetailModal}

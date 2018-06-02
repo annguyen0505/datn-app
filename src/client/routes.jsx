@@ -9,6 +9,7 @@ import ShopView from "./screens/shop-view/container";
 import ShopManagement from "./screens/shop-management/container";
 import CartManagement from "./screens/cart-management/container/index";
 import Register from "./screens/register/container/index";
+import UpdateShopInfo from "./screens/shop-management/components/update-shop-infor";
 export const routes = (
     <Route path="/" component={MasterPage}>
         <IndexRoute component={Home} />
@@ -19,7 +20,7 @@ export const routes = (
         <Route path="/shop-management" component={ShopManagement} />
         <Route path="/cart" component={CartManagement} />
         <Route path="/register" component={Register} />
-
+        <Route path="/update-shop-info" component={UpdateShopInfo} />
     </Route>
 );
 

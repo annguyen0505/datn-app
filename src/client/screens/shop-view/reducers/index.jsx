@@ -23,8 +23,10 @@ export const defaultState = {
     needReload: false,
     hasMoreItems: true,
     categories: [],
-    products: []
+    products: [],
+    shopProvinces: []
 };
+/*eslint-disable */
 
 const shopViewReducer = (state = { ...defaultState }, action) => {
 
@@ -47,12 +49,21 @@ const shopViewReducer = (state = { ...defaultState }, action) => {
             isFetching: false,
             categories: action.categories
         };
+
+        case actions.REQUEST_FOR_SHOPPROVINCES: return {
+            ...state,
+            isFetching: true
+        };
+        case actions.RECEIVE_SHOP_SHOPPROVINCES: return {
+            ...state,
+            isFetching: false,
+            shopProvinces: action.shopProvinces
+        };
         case actions.REQUEST_FOR_SHOP_PRODUCTS: return {
             ...state,
             isFetching: true,
             needReload: false
         };
-
         case actions.RECEIVE_SHOP_PRODUCTS: {
             let products = [...state.products];
             if (action.products) {
@@ -67,7 +78,6 @@ const shopViewReducer = (state = { ...defaultState }, action) => {
                 resetPage: false
             };
         }
-
         case actions.LOAD_MORE: {
             const { criteria } = state;
             return {
@@ -96,7 +106,6 @@ const shopViewReducer = (state = { ...defaultState }, action) => {
                 ...defaultState
             };
         }
-
         default: return state;
     }
 };

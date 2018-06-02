@@ -22,6 +22,10 @@ export const apiGetShopCategories = (params, onSuccess, onError) => {
     return axiosGet("/getShopCategories", params).then(onSuccess).catch(onError);
 };
 
+export const apiGetShopProvinces = (params, onSuccess, onError) => {
+    return axiosGet("/getShopProvinces", params).then(onSuccess).catch(onError);
+};
+
 export const apiGetShopProducts = (criteria, onSuccess, onError) => {
     return axiosGet("/getShopProducts", criteria).then(onSuccess).catch(onError);
 };
@@ -44,4 +48,11 @@ export const apiGetProduct = (params, onSuccess, onError) => {
 
 export const apiGetProductDetail = (params, onSuccess, onError) => {
     return axiosGet("/getProductDetail", params).then(onSuccess).catch(onError);
+};
+
+export const apiUpdateShopInfo = (payload, onSuccess, onError) => {
+    return axiosPost("/updateShopInfo", payload).then(onSuccess).catch(onError);
+};
+export const apiUpdateShopInfoWithoutImage = (payload, onSuccess, onError) => {
+    return axiosPost("/updateShopInfoWithoutImage", payload).then(onSuccess).catch(onError);
 };

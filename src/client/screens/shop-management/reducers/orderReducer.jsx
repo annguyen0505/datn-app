@@ -9,7 +9,8 @@ const defaultState = {
     },
     needReload: false,
     orders: [],
-    totalRecords: 0
+    totalRecords: 0,
+    newOrders: 0
 };
 
 const orderReducer = (state = defaultState, action) => {
@@ -50,6 +51,16 @@ const orderReducer = (state = defaultState, action) => {
             isFetching: false,
             needReload: true,
             isDeleteSuccess: action.isDeleteSuccess
+        };
+        case actions.REQUEST_GET_NEW_ORDERS: return {
+            ...state,
+            isFetching: true
+        };
+
+        case actions.RECEIVE_NEW_ORDERS_COUNT: return {
+            ...state,
+            isFetching: false,
+            newOrders: action.newOrders
         };
 
         default: return { ...state };

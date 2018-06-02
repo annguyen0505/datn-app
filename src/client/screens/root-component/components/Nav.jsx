@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import { removeAccessToken } from "./../../../helpers/cookie-helper";
 import { removeUserProfile } from "./../../authencation/actions/index";
+import { socket } from "./../../../socket/socket";
 
 class Nav extends React.Component {
 
@@ -28,6 +29,9 @@ class Nav extends React.Component {
     handleLogout() {
         localStorage.removeItem("accessToken");
         this.props.dispatch(removeUserProfile());
+        socket.emit("log-out",()=>{
+            
+        });
         this.navidateTo("/");
     }
 

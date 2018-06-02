@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { placeOrder } from "./../action";
 import { isEmptyInput, validateEmail, validatePhoneNumber } from "./../../../helpers/validation-helper";
+// import io from "socket.io-client";
 
+import { socket } from "./../../../socket/socket";
 const Modal = require("react-bootstrap-modal");
 
 const { Header, Body, Footer } = Modal;
@@ -26,6 +28,8 @@ class PlaceOrderModal extends React.Component {
             }
         };
         this.state = { ...this.defaultState };
+        // this.socket = io("localhost:3001");
+
     }
 
     handleInputChange(e) {
@@ -47,15 +51,15 @@ class PlaceOrderModal extends React.Component {
         const { customerName, customerEmail, customerAddress, customerPhone } = this.state;
 
         customerName.message = (customerName.isDirty || isSubmit) && isEmptyInput(customerName.value) ? "Nhập họ và tên" : "";
-        customerEmail.message = (customerEmail.isDirty || isSubmit) && isEmptyInput(customerEmail.value)  ? "Nhập email" : "";
+        customerEmail.message = (customerEmail.isDirty || isSubmit) && isEmptyInput(customerEmail.value) ? "Nhập email" : "";
         customerAddress.message = (customerAddress.isDirty || isSubmit) && isEmptyInput(customerAddress.value) ? "Nhập địa chỉ" : "";
         customerPhone.message = (customerPhone.isDirty || isSubmit) && isEmptyInput(customerPhone.value) ? "Nhập số điện thoại" : "";
 
-        if(!isEmptyInput(customerEmail.value)){
-            customerEmail.message= !validateEmail(customerEmail.value)?"Email không hợp lệ":"";
+        if (!isEmptyInput(customerEmail.value)) {
+            customerEmail.message = !validateEmail(customerEmail.value) ? "Email không hợp lệ" : "";
         }
-        if(!isEmptyInput(customerPhone.value)){
-            customerPhone.message= !validatePhoneNumber(customerPhone.value)?"Số điện thoại không hợp lệ":"";
+        if (!isEmptyInput(customerPhone.value)) {
+            customerPhone.message = !validatePhoneNumber(customerPhone.value) ? "Số điện thoại không hợp lệ" : "";
         }
 
         this.setState({
@@ -68,6 +72,7 @@ class PlaceOrderModal extends React.Component {
     }
     /*eslint-enable */
     handlePlaceOrder() {
+
         if (this.validateInputs(true)) {
             const { dispatch, cart } = this.props;
             const { customerName, customerAddress, customerPhone, customerEmail } = this.state;
@@ -78,7 +83,7 @@ class PlaceOrderModal extends React.Component {
                 customerEmail: customerEmail.value,
                 cart
             };
-
+            this.handleClodeModal();
             dispatch(placeOrder(payload));
         }
     }

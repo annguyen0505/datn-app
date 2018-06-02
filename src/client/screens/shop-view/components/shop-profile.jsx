@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import moment from "moment";
 import { connect } from "react-redux";
 import { getShopView } from "./../actions";
 class ShopProfile extends React.Component {
@@ -15,6 +15,7 @@ class ShopProfile extends React.Component {
     render() {
         const { shop } = this.props;
         const { categories, businessLocations } = shop;
+        const dateOpen = shop.dateOpen ? moment(shop.dateOpen || "").format("DD/MM/YYYY HH:mm:ss A").toString() : "";
         return (
             <div className="row" style={{ marginBottom: "1rem", backgroundColor: "#f0f8ff" }}>
                 <div className="col-sm-4" style={{ marginBottom: "1rem" }}>
@@ -34,7 +35,7 @@ class ShopProfile extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td style={{ width: "50%" }}><h4>Địa chỉ: {shop.shopAddress}</h4></td>
-                                        <td><h4>Ngày mở: {shop.dateOpen}</h4></td>
+                                        <td><h4>Ngày mở: {dateOpen}</h4></td>
                                     </tr>
                                     <tr>
                                         <td><h4>Email: {shop.shopEmail}</h4></td>

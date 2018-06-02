@@ -1,8 +1,8 @@
-2018-05-20T18:03:45.750Z - info: No custom webpack config webpack.config.dev.js found in dirs CWD; CWD\archetype\config\webpack
-2018-05-20T18:03:45.778Z - info: Entry point configuration C:\Users\AnNguyen\Desktop\datn-project\datn-app\src\client\entry.config.js is not found, using default entry point...
-2018-05-20T18:03:47.573Z - info: PWA enabled with config from C:\Users\AnNguyen\Desktop\datn-project\datn-app\config\sw-config.js
-2018-05-20T18:03:47.902Z - info: Not disabling NodeSourcePlugin.  NODE_ENV: 'development'
-2018-05-20T18:03:47.906Z - verbose: Final Webpack config {
+2018-06-02T09:42:04.965Z - info: No custom webpack config webpack.config.dev.js found in dirs CWD; CWD\archetype\config\webpack
+2018-06-02T09:42:05.016Z - info: Entry point configuration C:\Users\AnNguyen\Desktop\datn-project\datn-app\src\client\entry.config.js is not found, using default entry point...
+2018-06-02T09:42:11.822Z - info: PWA enabled with config from C:\Users\AnNguyen\Desktop\datn-project\datn-app\config\sw-config.js
+2018-06-02T09:42:13.940Z - info: Not disabling NodeSourcePlugin.  NODE_ENV: 'development'
+2018-06-02T09:42:13.941Z - verbose: Final Webpack config {
   "cache": true,
   "plugins": [
     {
@@ -345,4 +345,4 @@
     }
   }
 }
-2018-05-20T18:04:11.241Z - info: APP_SRC_DIR set to src/
+2018-06-02T09:43:09.995Z - info: APP_SRC_DIR set to src/

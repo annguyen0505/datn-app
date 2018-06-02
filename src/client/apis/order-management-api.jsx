@@ -14,3 +14,11 @@ export const apiChangeConfirmation = (params, onSuccess, onError) => {
 export const apiGetOrderDetail = (params, onSuccess, onError) => {
     return axiosGet("/getOrderDetail", params).then(onSuccess).catch(onError);
 };
+
+export const apiGetNewOrderCount = (params, onSuccess, onError) => {
+    return axiosGet("/getNewOrderCount", params).then(onSuccess).catch(onError);
+};
+
+export const apiSeenAllOrders = (params, onSuccess, onError) => {
+    return axiosGet("/seenAllOrders", params).then(onSuccess).catch(onError);
+};

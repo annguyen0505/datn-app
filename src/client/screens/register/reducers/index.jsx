@@ -1,4 +1,4 @@
-import { RECEIVE_REGISTER_RESPONSE, REQUEST_REGISTER } from "./../actions";
+import { RECEIVE_REGISTER_RESPONSE, REQUEST_REGISTER, RESET_REGISTER_STORE } from "./../actions";
 
 
 const defaultState = {
@@ -16,6 +16,10 @@ const registerReducer = (state = defaultState, action) => {
             ...state,
             isFetching: false,
             isSuccess: action.isSuccess
+        };
+
+        case RESET_REGISTER_STORE: return {
+            ...defaultState
         };
         default: return state;
     }

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import GridView from "./../../../commons/gridview/gridview";
-import { apiGetOrders } from "./../../../apis/order-management-api";
+import { apiSeenAllOrders } from "./../../../apis/order-management-api";
 import { connect } from "react-redux";
-import { getOrders, deleteOrder, changeConfirmation } from "./../actions/order-action";
+import { getOrders, deleteOrder, changeConfirmation, getNewOrders } from "./../actions/order-action";
 import { SimpleSelect } from "react-selectize";
 import OrderDetailModal from "./order-details-modal";
 import DeleteOrderModal from "./order-delete-modal";
@@ -26,8 +26,8 @@ class OrdersManagement extends React.Component {
     componentDidMount() {
         const { criteria, dispatch, shopId } = this.props;
         criteria.shopId = shopId;
-        console.log(criteria);
         dispatch(getOrders(criteria));
+        apiSeenAllOrders({ shopId }, (rs) => { dispatch(getNewOrders(shopId)); });
     }
 
     toggleDetailModal() {

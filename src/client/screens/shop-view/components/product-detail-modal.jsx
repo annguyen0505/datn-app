@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toVNDformat } from "./../../../helpers/common-helper";
 import { apiGetProductDetail } from "./../../../apis/shops-management";
+import { Carousel, Image } from "react-bootstrap";
 
+const { Item, Caption } = Carousel;
 const Modal = require("react-bootstrap-modal");
 
 const { Header, Body } = Modal;
@@ -65,7 +67,21 @@ class ProductDetailModal extends React.Component {
         const prevDisabled = currentImg === 0;
 
         const imageWillRender = Array.isArray(images) && images.length > 0 ? images[currentImg].imgUrl : "";
-
+        const items = images.map((image, index) => {
+            return (
+                <Item key={index}>
+                    <img style={
+                        {
+                            width: "60%%",
+                            margin: "auto",
+                            maxHeight: "450px"
+                        }
+                    } alt="900x500" src={image.imgUrl} />
+                    <Caption>
+                        <h3>{this.state.product.productName}</h3>
+                    </Caption>
+                </Item>);
+        });
         return (
             <div className="container" >
                 <Modal
@@ -77,7 +93,7 @@ class ProductDetailModal extends React.Component {
                     <Body>
                         <div className="row">
 
-                            <div className="col-xs-12" >
+                            {/* <div className="col-xs-12" >
                                 <img style={{
                                     display: "block",
                                     marginLeft: "auto",
@@ -103,7 +119,11 @@ class ProductDetailModal extends React.Component {
                                             className="glyphicon glyphicon-step-forward" />
                                     </a>
                                 </div>
-                            </div>
+                            </div> */}
+
+                            <Carousel>
+                                {items}
+                            </Carousel>
                         </div>
                     </Body>
                 </Modal>
