@@ -11,7 +11,7 @@ class ProductFilter extends React.Component {
         super(props);
         this.defaultState = { ...this.props.criteria };
         this.state = {
-            ...this.props.criteria
+            ...this.defaultState
         };
     }
 
@@ -46,9 +46,10 @@ class ProductFilter extends React.Component {
 
     handleBtnResetClick(e) {
         e.preventDefault();
-        this.state = { ...this.defaultState };
+        // this.state = { ...this.defaultState };
+        this.setState({...this.defaultState});
         const { dispatch } = this.props;
-        dispatch(getShopProducts(this.defaultState));
+        dispatch(getShopProducts({ ...this.defaultState }));
 
     }
 

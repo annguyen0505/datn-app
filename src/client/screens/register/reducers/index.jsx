@@ -5,7 +5,7 @@ const defaultState = {
     isFetching: false,
     isSuccess: false
 };
-const registerReducer = (state = defaultState, action) => {
+const registerReducer = (state = {...defaultState}, action) => {
     switch (action.type) {
         case REQUEST_REGISTER: return {
             ...state,

@@ -45,6 +45,7 @@ class PlaceOrderModal extends React.Component {
 
     }
 
+
     /*eslint-disable */
 
     validateInputs(isSubmit = false) {
@@ -72,7 +73,6 @@ class PlaceOrderModal extends React.Component {
     }
     /*eslint-enable */
     handlePlaceOrder() {
-
         if (this.validateInputs(true)) {
             const { dispatch, cart } = this.props;
             const { customerName, customerAddress, customerPhone, customerEmail } = this.state;
@@ -83,8 +83,11 @@ class PlaceOrderModal extends React.Component {
                 customerEmail: customerEmail.value,
                 cart
             };
+            dispatch(placeOrder(payload)).then(() => {
+                console.log("new -order", cart.shopId);
+                socket.emit("order", cart.shopId);
+            });
             this.handleClodeModal();
-            dispatch(placeOrder(payload));
         }
     }
 
@@ -183,9 +186,10 @@ PlaceOrderModal.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-
+    const { cartManagementReducer } = state;
+    const { isSucess } = cartManagementReducer;
     return {
-
+        isSucess
     };
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { MultiSelect } from "react-selectize";
-import { getInitialState, register, requestRegister } from "./../actions/index";
+import { getInitialState, register, requestRegister, resetRegisterStore } from "./../actions/index";
 import { uploadImage } from "./../../../helpers/firebase-helper";
 import { isEmptyInput, validateEmail, validatePhoneNumber } from "./../../../helpers/validation-helper";
 import { apiCheckUserName } from "./../../../apis/authentication-api";
@@ -50,9 +50,13 @@ class Register extends React.Component {
         dispatch(getInitialState());
     }
 
+    componentWillUnmount() {
+        const { dispatch } = this.props;
+        dispatch(resetRegisterStore());
+    }
     componentWillReceiveProps(nextProps) {
         const { isSuccess, router, isFetching } = nextProps;
-        console.log(nextProps);
+
         if (isSuccess) {
             router.push("/login");
             this.state = { ...this.defaultState };

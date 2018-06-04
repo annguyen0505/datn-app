@@ -69,6 +69,14 @@ class OrdersManagement extends React.Component {
         criteria.isConfirmed = confirm.value;
         dispatch(getOrders(criteria));
     }
+    handleBtnResetClick() {
+        const { dispatch, criteria } = this.props;
+        const { searchName, confirm } = this.defaultState;
+        criteria.searchName = searchName;
+        criteria.isConfirmed = confirm.value;
+        this.setState({...this.defaultState});
+        dispatch(getOrders(criteria));
+    }
 
     handleGridViewActionClick(action, identifier) {
         switch (action) {
