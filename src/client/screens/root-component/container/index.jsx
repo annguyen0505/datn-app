@@ -21,14 +21,14 @@ class MasterPage extends Component {
         const localStorage = window.localStorage;
         const accessToken = getAccessToken(localStorage) || null;
         const profile = accessToken === null ? null : getLocalUserProfile(accessToken);
+        socket.on("new-order", () => {
+            dispatch(showInfo("Bạn vừa nhận được đơn hàng mới"));
+            dispatch(getNewOrders(profile.shopId));
+        });
         if (profile !== null) {
             socket.on("connect", () => {
                 this.socketId = socket.id;
                 socket.emit("login", profile.shopId);
-            });
-            socket.on("new-order", () => {
-                dispatch(showInfo("Bạn vừa nhận được đơn hàng mới"));
-                dispatch(getNewOrders(profile.shopId));
             });
         }
         dispatch(setUserProfile(localStorage));

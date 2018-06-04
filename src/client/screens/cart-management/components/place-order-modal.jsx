@@ -73,6 +73,7 @@ class PlaceOrderModal extends React.Component {
     }
     /*eslint-enable */
     handlePlaceOrder() {
+
         if (this.validateInputs(true)) {
             const { dispatch, cart } = this.props;
             const { customerName, customerAddress, customerPhone, customerEmail } = this.state;
